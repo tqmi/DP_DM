@@ -1,0 +1,8 @@
+{
+    "basePackage": "com.tamas.codegen",
+    "configPackage": "com.tamas.codegen.config",
+    "apiPackage": "com.tamas.codegen.controllers",
+    "modelPackage": "com.tamas.codegen.model",
+    "groupId": "com.tamas",
+    "artifactId": "api-generator"
+  }
