@@ -3,10 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { OpenAPIProvider } from 'react-openapi-client';
+import { render } from 'react-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <OpenAPIProvider definition={process.env.PUBLIC_URL + "/api.json"}>
+      <App />
+    </OpenAPIProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,13 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
+import { useOperation } from 'react-openapi-client';
 
-function App() {
+const App = (props) => {
+  const { loading, data, error } = useOperation('getPetById', 1);
+ 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+ 
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+ 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Hello World!
+          {data.name}
         </p>
         <a
           className="App-link"
