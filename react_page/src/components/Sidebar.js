@@ -1,13 +1,14 @@
 import React from "react";
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
+import "../style/Sidebar.css";
 
 export function Sidebar() {
   return (
     <>
       <SideNav
         onSelect={(selected) => {
-          <h1>{selected.eventKey}</h1>
+          
         }}
       >
         <SideNav.Toggle />
