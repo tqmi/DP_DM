@@ -7,30 +7,32 @@ export function Sidebar() {
     <>
       <SideNav
         onSelect={(selected) => {
-          // Add your code here
+          <h1>{selected.eventKey}</h1>
         }}
       >
         <SideNav.Toggle />
-        <SideNav.Nav defaultSelected="home">
-          <NavItem eventKey="home">
+        <SideNav.Nav defaultSelected="Blue">
+          <NavItem eventKey="Blue">
             <NavIcon>
               <i className="fa fa-fw fa-home" style={{ fontSize: "1.75em" }} />
             </NavIcon>
-            <NavText>Home</NavText>
+            <NavText>Blue</NavText>
+            
           </NavItem>
-          <NavItem eventKey="charts">
+
+          <NavItem eventKey="options">
             <NavIcon>
               <i
                 className="fa fa-fw fa-line-chart"
                 style={{ fontSize: "1.75em" }}
               />
             </NavIcon>
-            <NavText>Charts</NavText>
-            <NavItem eventKey="charts/linechart">
-              <NavText>Line Chart</NavText>
+            <NavText>Options</NavText>
+            <NavItem eventKey="options/red">
+              <NavText>Red</NavText>
             </NavItem>
-            <NavItem eventKey="charts/barchart">
-              <NavText>Bar Chart</NavText>
+            <NavItem eventKey="options/green">
+              <NavText>Green</NavText>
             </NavItem>
           </NavItem>
         </SideNav.Nav>

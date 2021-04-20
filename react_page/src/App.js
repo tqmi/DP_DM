@@ -3,7 +3,7 @@ import React from "react";
 import { Test } from "./components/expFunct";
 import { Sidebar } from "./components/Sidebar";
 
-import {Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import {Container, Row, Col, Card } from "react-bootstrap";
 
 
 import "./App.css";
@@ -11,9 +11,15 @@ import "./App.css";
 function App() {
   return (
     <>
-      <Test />,
-      <Sidebar />
-
+      <Container fluid className="vh-100 d-flex flex-column ">
+        <Row>
+          <Col> <Test /></Col>
+        </Row>
+        <Row className="h-100">
+          <Sidebar />
+        </Row>
+      
+      </Container>
       
     </>
   );
