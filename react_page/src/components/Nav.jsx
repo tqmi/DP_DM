@@ -6,7 +6,6 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-import "../style/expFunct.css";
 
 
 
