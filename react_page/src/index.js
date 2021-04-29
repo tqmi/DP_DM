@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Routes from "./routes";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactDOM.render(<Routes />, document.getElementById("root"));
 
