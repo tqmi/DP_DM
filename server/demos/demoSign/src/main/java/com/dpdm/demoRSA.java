@@ -1,17 +1,18 @@
-package demoSign;
+package com.dpdm;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.security.KeyPair;
-
-import fileRSAsigner.workerRSA;
 
 public class demoRSA {
     public static void main(String[] args) {
         try {
             KeyPair keyPair = workerRSA.generateKeyPair();
 
-            File f1 = new File("D:\\University\\Year III\\Sem 2\\DP\\DP_DM\\demoSign\\testFile.txt");
+            String fileName = "testFile.txt";
+            ClassLoader classLoader = demoRSA.class.getClassLoader();
+
+            File f1 = new File(classLoader.getResource(fileName).getFile());
             // File f2 = new File("D:\\University\\Year III\\Sem 2\\DP\\DP_DM\\README.md");
 
             String signature = workerRSA.sign(f1, keyPair.getPrivate());
