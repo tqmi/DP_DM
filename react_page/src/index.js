@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Routes from "./routes";
 import { OpenAPIProvider } from 'react-openapi-client';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactDOM.render(<OpenAPIProvider definition={process.env.PUBLIC_URL + "/api.json"}><Routes /></OpenAPIProvider>, document.getElementById("root"));
 

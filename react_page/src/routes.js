@@ -7,6 +7,7 @@ import Page3 from "./pages/Page-3";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
+import Upload from "./components/Page2Comp/Upload";
 
 function Routes() {
     return (

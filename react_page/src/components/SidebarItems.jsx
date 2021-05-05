@@ -18,7 +18,7 @@ const SidebarItems = [
     {
         name: "Page 3",
         route: 'page-3'
-    },
+    }
 ];
 
 export default SidebarItems;
