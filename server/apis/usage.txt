@@ -1,0 +1,28 @@
+the openapi generators should be used as follows:
+
+java -jar <generator.jar> generate -g spring -i <api.yaml/.json> -c <configfile.json> -o <project/folder name>
+
+the templateconfig.json is a template to follow for setting up the configfile
+
+after generation the pom.xml of the generated spring project needs to be modified :
+    the build directive should look like this 
+    
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    This helps with the inclusion of the project in the service
+
+    After this run:
+    mvn clean install
+
+    now you should be able to include the api in other projects

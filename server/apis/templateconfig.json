@@ -1,0 +1,8 @@
+{
+    "basePackage": "<your base package (ex. com.example.exampleApi) >",
+    "configPackage": "<basepackage>.config",
+    "apiPackage": "<basepackage>.controllers",
+    "modelPackage": "<basepackage>.model",
+    "groupId": "<your group id (ex. com.example ) for the sake of the project use com.dpdm as groupId >",
+    "artifactId": "<your artifact id (ex. exampleApi) >"
+  }

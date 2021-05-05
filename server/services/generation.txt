@@ -1,0 +1,14 @@
+Services should be initialized with Spring Initializr (https://start.spring.io/)
+settings : 
+    project : maven
+    language : java
+    spring boot : 2.4.5
+    project metadata : fill in with proj details
+    packaging : jar
+    java : 11
+    dependencies : spring web + what ever you need
+
+applications are run using maven:
+    mvn spring-boot:run
+
+for the sake of the project use com.dpdm as group
