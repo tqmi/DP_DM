@@ -1,0 +1,68 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "version" : "1.0.0",
+    "title" : "Sample API",
+    "description" : "Api for sending user info to server and to read user data"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8080"
+  } ],
+  "paths" : {
+    "/users" : {
+      "get" : {
+        "operationId" : "getUser",
+        "summary" : "Returns a user by ID",
+        "parameters" : [ {
+          "name" : "userToken",
+          "in" : "header",
+          "required" : true,
+          "description" : "an access token for firebase to get user info",
+          "schema" : {
+            "type" : "string",
+            "format" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "The specified user token is invalid"
+          },
+          "404" : {
+            "description" : "A user with the specified token was not found"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "User" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "phone" : {
+            "type" : "string",
+            "format" : "string"
+          }
+        }
+      }
+    }
+  }
+}
