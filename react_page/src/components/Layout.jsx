@@ -12,7 +12,7 @@ import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 
 import "../style/Layout.css";
-
+import {AiOutlineMenu} from "react-icons/ai";
 
 
 function Layout(props) {
@@ -29,7 +29,7 @@ function Layout(props) {
     <Container fluid className="vh-100 d-flex flex-column ">
 
         <Row className='header'>
-          <Col  sm='0.3'><button onClick={toggleDrawer}>Show</button></Col>
+        <Col  sm='0.3'><AiOutlineMenu onClick={toggleDrawer}  color="white" size={50}/></Col>
           <Col> <Nav /></Col>
         </Row>
 
