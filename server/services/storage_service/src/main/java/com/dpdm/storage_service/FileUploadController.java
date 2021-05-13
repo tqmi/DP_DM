@@ -95,7 +95,7 @@ public class FileUploadController {
 	// 			"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	// }
 
-	@PostMapping("/file")
+	@PostMapping("/files")
 	public ResponseEntity handleFileUpload(@RequestParam("file") MultipartFile file,@RequestHeader(value="userToken", required=true) String userToken) {
 
 		
