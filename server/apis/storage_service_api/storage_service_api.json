@@ -45,10 +45,15 @@
           "required" : true,
           "description" : "The file",
           "content" : {
-            "application/form-data" : {
+            "multipart/form-data" : {
               "schema" : {
-                "type" : "string",
-                "format" : "file"
+                "type" : "object",
+                "properties" : {
+                  "filename" : {
+                    "type" : "string",
+                    "format" : "binary"
+                  }
+                }
               }
             }
           }

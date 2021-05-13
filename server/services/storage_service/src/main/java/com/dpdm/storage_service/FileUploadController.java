@@ -2,7 +2,14 @@ package com.dpdm.storage_service;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import com.dpdm.storageapi.controllers.FilesApiController;
+import com.dpdm.storageapi.model.FileResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -18,72 +25,45 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
-public class FileUploadController {
+public class FileUploadController extends FilesApiController{
 
 	private final StorageService storageService;
 
 	@Autowired
-	public FileUploadController(StorageService storageService) {
+	public FileUploadController(StorageService storageService,NativeWebRequest request) {
+		super(request);
 		this.storageService = storageService;
 	}
 
-	private class FileResponse{
-
-		String fileName;
-		String author;
-		URL downloadLink;
-
-		public FileResponse(String fileName, String author, URL downloadLink) {
-			this.fileName = fileName;
-			this.author = author;
-			this.downloadLink = downloadLink;
-		}
-		public FileResponse(){}
-		public String getFileName() {
-			return fileName;
-		}
-		public void setFileName(String fileName) {
-			this.fileName = fileName;
-		}
-		public String getAuthor() {
-			return author;
-		}
-		public void setAuthor(String author) {
-			this.author = author;
-		}
-		public URL getDownloadLink() {
-			return downloadLink;
-		}
-		public void setDownloadLink(URL downloadLink) {
-			this.downloadLink = downloadLink;
-		}
-
-		
-
-	}
-
+	@Override
 	@GetMapping("/files")
-	public ResponseEntity<FileResponse[]> listUploadedFiles() throws IOException {
+	public ResponseEntity<List<FileResponse>> filesGet() {
 
 
-		FileResponse files[] = storageService.loadAll().map(file -> {
+		List<FileResponse> files = storageService.loadAll().map(file -> {
 			try {
-				return new FileResponse(file.getFileBlobId(),file.getUID(), storageService.loadAsResource(file.getFileBlobId()).getURL());
+				FileResponse fileResponse = new FileResponse();
+				fileResponse.setFileName(file.getFileBlobId());
+				fileResponse.setOwner(file.getUID());
+				fileResponse.setDownloadLink( storageService.loadAsResource(file.getFileBlobId()).getURL().toString());
+				return fileResponse;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;
-		}).toArray(FileResponse[]::new);
+		}).collect(Collectors.toList());
 
-		return new ResponseEntity<FileResponse[]>(files,HttpStatus.OK);
+		return new ResponseEntity<List<FileResponse>>(files,HttpStatus.OK);
 	}
 
 	// @GetMapping("/files/{filename:.+}")
@@ -95,13 +75,14 @@ public class FileUploadController {
 	// 			"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	// }
 
+	@Override
 	@PostMapping("/files")
-	public ResponseEntity handleFileUpload(@RequestParam("file") MultipartFile file,@RequestHeader(value="userToken", required=true) String userToken) {
+	public ResponseEntity<Void> filesPost(@RequestHeader(value="userToken", required=true) String userToken,@Valid @RequestPart(value = "filename", required = false) MultipartFile filename) {
 
 		
-		storageService.store(file,null);
+		storageService.store(filename,null);
 		
-		return ResponseEntity.ok().body("success");
+		return ResponseEntity.ok().build();
 	}
 
 	// @ExceptionHandler(StorageFileNotFoundException.class)
