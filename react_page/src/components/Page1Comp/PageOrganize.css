@@ -1,0 +1,120 @@
+.PageOrganize {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  img {
+    height: 100px;
+  }
+  
+  h1 {
+    color: #6c7ac9;
+    font-weight: bold;
+    font-family: Georgia;
+    word-spacing: 5.2px;
+    font-variant: small-caps;
+    align-self: auto;
+    margin: auto;
+  }
+  
+  .pagination {
+    display:flex;
+    justify-content:end;
+    cursor: pointer;
+  }
+  
+  .pagination a {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #6c7ac9;
+    color: #6c7ac9;
+    margin-right: auto;
+    
+  }
+  
+  .pagination__link {
+    font-weight: bold;
+  }
+  
+  .pagination__link--active a {
+    color: #fff;
+    background: #6c7ac9;
+  }
+  
+  .pagination__link--disabled a {
+    color: rgb(198, 197, 202);
+    border: 1px solid rgb(198, 197, 202);
+  }
+  
+  .btn-light {
+    /* color: #17a2b8; */
+    /* border-color: #17a2b8; */
+    padding: 3%;
+    padding-left: 7%;
+    padding-right: 7%;
+    border-radius: 0rem;
+    font-family: Georgia;
+    margin-right: 1rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+  
+}
+
+.nowrap  { 
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+}
+
+.wrap    { 
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: auto;
+ 
+}  
+.wrap button {
+  background:white;
+}
+
+.wrap-reverse         { 
+  -webkit-flex-wrap: wrap-reverse;
+  flex-wrap: wrap-reverse;
+}  
+.wrap-reverse li {
+  background: deepskyblue;
+}
+
+.flex-item {
+  background: tomato;
+  padding: 5px;
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  
+  line-height: 100px;
+  color: white;
+  font-weight: bold;
+  font-size: 2em;
+  text-align: center;
+}
+
+
+
+
+
+
+
+  

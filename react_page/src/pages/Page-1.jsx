@@ -1,13 +1,15 @@
 import React from 'react';
+import ReactDOM from "react-dom";
+import PageOrganize from '../components/Page1Comp/PageOrganize';
 
-
+const rootElement = document.getElementById("root");
 function Page1(props) {
     return (
-        <div>
-            <h1>Page 1</h1>
-            <p>I bring the sauce.</p>
-           
-        </div>
+       
+            <React.StrictMode>
+              <PageOrganize />
+            </React.StrictMode>
+        
     );
 }
 
