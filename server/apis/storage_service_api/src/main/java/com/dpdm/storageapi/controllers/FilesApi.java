@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-12T19:32:41.978191100+03:00[Europe/Bucharest]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-13T20:20:51.944579700+03:00[Europe/Bucharest]")
 @Validated
 @Api(value = "files", description = "the files API")
 public interface FilesApi {
@@ -61,7 +61,7 @@ public interface FilesApi {
      * POST /files : Uploads the file to the stoarge bucket
      *
      * @param userToken an access token for firebase to get user info (required)
-     * @param body The file (required)
+     * @param filename  (optional)
      * @return OK (status code 200)
      *         or invalid request (status code 400)
      */
@@ -71,9 +71,9 @@ public interface FilesApi {
         @ApiResponse(code = 400, message = "invalid request") })
     @PostMapping(
         value = "/files",
-        consumes = { "application/form-data" }
+        consumes = { "multipart/form-data" }
     )
-    default ResponseEntity<Void> filesPost(@ApiParam(value = "an access token for firebase to get user info" ,required=true) @RequestHeader(value="userToken", required=true) String userToken,@ApiParam(value = "The file" ,required=true )  @Valid @RequestBody org.springframework.core.io.Resource body) {
+    default ResponseEntity<Void> filesPost(@ApiParam(value = "an access token for firebase to get user info" ,required=true) @RequestHeader(value="userToken", required=true) String userToken,@ApiParam(value = "") @Valid @RequestPart(value = "filename", required = false) MultipartFile filename) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
