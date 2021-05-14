@@ -9,10 +9,29 @@
     "url" : "http://localhost:8080"
   } ],
   "paths" : {
-    "/users" : {
+    "/files" : {
       "get" : {
-        "operationId" : "getUser",
-        "summary" : "Returns a user by ID",
+        "summary" : "Returns a list of filenames,authors and download links",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/FileResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "putFile",
+        "summary" : "Uploads the file to the stoarge bucket",
         "parameters" : [ {
           "name" : "userToken",
           "in" : "header",
@@ -23,22 +42,29 @@
             "format" : "string"
           }
         } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/User"
+        "requestBody" : {
+          "required" : true,
+          "description" : "The file",
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "filename" : {
+                    "type" : "string",
+                    "format" : "binary"
+                  }
                 }
               }
             }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
           },
           "400" : {
-            "description" : "The specified user token is invalid"
-          },
-          "404" : {
-            "description" : "A user with the specified token was not found"
+            "description" : "invalid request"
           }
         }
       }
@@ -46,20 +72,20 @@
   },
   "components" : {
     "schemas" : {
-      "User" : {
+      "FileResponse" : {
         "type" : "object",
         "properties" : {
-          "name" : {
+          "fileName" : {
             "type" : "string",
             "format" : "string"
           },
-          "email" : {
+          "owner" : {
             "type" : "string",
             "format" : "string"
           },
-          "phone" : {
+          "download_link" : {
             "type" : "string",
-            "format" : "string"
+            "format" : "url"
           }
         }
       }

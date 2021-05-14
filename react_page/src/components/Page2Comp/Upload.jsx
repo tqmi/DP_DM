@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import "./Upload.css";
 
 import { Container, Row, Col, Card } from "react-bootstrap";
+import { useOperationMethod } from 'react-openapi-client';
 
 
 const styles = {
@@ -11,10 +12,19 @@ const styles = {
   display: 'flex',
 };
 
-class Upload extends React.Component {
+function Upload(props) {
+  
+  const [putFile,{ loading, data, error }] = useOperationMethod('putFile');
+
+  return <UploadWrapped putFileApi={{'operation' : putFile , "result" : { loading, data, error }}} />;
+}
+
+class UploadWrapped extends React.Component {
+  
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
+    this.uploadFile = this.uploadFile.bind(this);
     this.state = {
       files: [],
     };
@@ -30,6 +40,13 @@ class Upload extends React.Component {
   
   removeFile(f) {
        this.setState({ files: this.state.files.filter(x => x !== f) }); 
+  }
+
+  uploadFile(){
+    var formData = new FormData();
+    formData.append("filename",this.state.files[0]);
+    console.log(this.state.files[0]);
+    this.props.putFileApi.operation(null,formData,{headers:{'userToken' : "whatever"}}).then(response => console.log(response));
   }
 
   render() {
@@ -56,7 +73,7 @@ class Upload extends React.Component {
          </Row>
      
          <Row >
-            <button className="custom-file-upload">Upload</button>
+            <button className="custom-file-upload" onClick={this.uploadFile}>Upload</button>
          </Row>
        
        </Container>

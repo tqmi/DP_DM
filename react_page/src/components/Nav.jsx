@@ -18,11 +18,11 @@ import { useOperationMethod } from 'react-openapi-client';
 function Nav(props) {
   const [user] = useAuthState(auth);
   const [getPet,{ loading, data, error }] = useOperationMethod('getUser');
-  useEffect(() => {
-    if(user){
-      let userToken = user.getIdToken().then((val) => getPet(null,null,{headers:{'userToken' : val}}).then((response) => console.log(response.data)));
-    }
-  },[user]);
+  // useEffect(() => {
+  //   if(user){
+  //     let userToken = user.getIdToken().then((val) => getPet(null,null,{headers:{'userToken' : val}}).then((response) => console.log(response.data)));
+  //   }
+  // },[user]);
 
 
   const signInWithGoogle = () => {
