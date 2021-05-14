@@ -5,13 +5,41 @@ import Pagination from '../components/Page2Comp/Pagination';
 import CountryCard from '../components/Page2Comp/CountryCard';
 import Upload from '../components/Page2Comp/Upload';
 import { Container, Row, Col, Card } from "react-bootstrap";
+import { useOperationMethod } from 'react-openapi-client';
 
-class Page2 extends Component {
-  state = { allCountries: [], currentCountries: [], currentPage: null, totalPages: null }
+
+function Page2(props) {
+  
+  const [getFiles,{ loading, data, error }] = useOperationMethod('getFiles');
+
+  return <Page2Wrapped getFileApi={{'operation' : getFiles , "result" : { loading, data, error }}}/>;
+}
+
+
+class Page2Wrapped extends Component {
+  state = { allCountries: [], 
+    currentCountries: [], 
+    currentPage: null, 
+    totalPages: null,
+    filesData: [],
+  }
+
+  constructor() {
+    super();
+  }
+
+
 
   componentDidMount() {
     const { data: allCountries = [] } = Countries.findAll();
+    console.log(allCountries);
     this.setState({ allCountries });
+
+    this.props.getFileApi.operation().then(response => {
+      console.log(response.data);
+      this.setState({filesData: response.data});
+      console.log(this.state.filesData);
+    });
   }
 
   onPageChanged = data => {
@@ -24,7 +52,7 @@ class Page2 extends Component {
   }
 
   render() {
-    const { allCountries, currentCountries, currentPage, totalPages } = this.state;
+    const { allCountries, currentCountries, currentPage, totalPages, filesData } = this.state;
     const totalCountries = allCountries.length;
 
     if (totalCountries === 0) return null;
@@ -59,6 +87,7 @@ class Page2 extends Component {
 
             <Col> 
               <Row><Upload/></Row>
+              {filesData.map(file => <div>{file.fileName}</div>)}
             </Col>
           </Row>
 

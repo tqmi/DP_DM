@@ -1,0 +1,96 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "version" : "1.0.0",
+    "title" : "Sample API",
+    "description" : "Api for sending user info to server and to read user data"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8080"
+  } ],
+  "paths" : {
+    
+    "/files" : {
+      "get" : {
+        "operationId" : "getFiles",
+        "summary" : "Returns a list of filenames,authors and download links",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/FileResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "putFile",
+        "summary" : "Uploads the file to the stoarge bucket",
+        "parameters" : [ {
+          "name" : "userToken",
+          "in" : "header",
+          "required" : true,
+          "description" : "an access token for firebase to get user info",
+          "schema" : {
+            "type" : "string",
+            "format" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "description" : "The file",
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "filename" : {
+                    "type" : "string",
+                    "format" : "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "invalid request"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "FileResponse" : {
+        "type" : "object",
+        "properties" : {
+          "fileName" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "owner" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "download_link" : {
+            "type" : "string",
+            "format" : "url"
+          }
+        }
+      }
+    }
+  }
+}
