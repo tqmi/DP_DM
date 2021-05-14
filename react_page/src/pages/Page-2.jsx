@@ -81,7 +81,7 @@ class Page2Wrapped extends Component {
                   <Pagination totalRecords={totalCountries} pageLimit={18} pageNeighbours={1} onPageChanged={this.onPageChanged} />
                 </div>
               </div>
-              { currentCountries.map(country => <CountryCard key={country.cca3} country={country} />) }
+              { filesData.map(file => <CountryCard key={file.download_link} file={file} />) }
             </div>
             </Col>
 
