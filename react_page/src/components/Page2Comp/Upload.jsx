@@ -47,6 +47,7 @@ class UploadWrapped extends React.Component {
     formData.append("filename",this.state.files[0]);
     console.log(this.state.files[0]);
     this.props.putFileApi.operation(null,formData,{headers:{'userToken' : "whatever"}}).then(response => console.log(response));
+    window.location.reload();
   }
 
   render() {

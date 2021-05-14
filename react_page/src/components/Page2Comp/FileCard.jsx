@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Flag from 'react-flags';
 
-const CountryCard = props => {
+const FileCard = props => {
   const {
     download_link = null, fileName = null, owner = null
   } = props.file || {};
 
   return (
-    <div className="col-sm-6 col-md-4 country-card">
+    <div className="col-sm-6 col-md-6 country-card">
       <div className="country-card-container border-gray rounded border mx-2 my-3 d-flex flex-row align-items-center p-0 bg-light">
-        <div className="h-100 position-relative border-gray border-right px-2 bg-white rounded-left">
+        <div >
           <a href={download_link}>
             <img src={process.env.PUBLIC_URL + "./download_button.png"}
-            width="60" height="60"/>
+            />
           </a>
         </div>
         <div className="px-3">
@@ -25,7 +24,7 @@ const CountryCard = props => {
   )
 }
 
-CountryCard.propTypes = {
+FileCard.propTypes = {
   file: PropTypes.shape({
     download_link: PropTypes.string.isRequired,
     fileName: PropTypes.string.isRequired,
@@ -33,4 +32,4 @@ CountryCard.propTypes = {
   }).isRequired
 };
 
-export default CountryCard;
+export default FileCard;

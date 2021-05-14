@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Countries from 'countries-api';
 import '../style/Page2.css';
 import Pagination from '../components/Page2Comp/Pagination';
-import CountryCard from '../components/Page2Comp/CountryCard';
+import FileCard from '../components/Page2Comp/FileCard';
 import Upload from '../components/Page2Comp/Upload';
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { useOperationMethod } from 'react-openapi-client';
@@ -17,11 +17,11 @@ function Page2(props) {
 
 
 class Page2Wrapped extends Component {
-  state = { allCountries: [], 
-    currentCountries: [], 
+  state = {
     currentPage: null, 
     totalPages: null,
     filesData: [],
+    currentFiles: [],
   }
 
   constructor() {
@@ -43,19 +43,19 @@ class Page2Wrapped extends Component {
   }
 
   onPageChanged = data => {
-    const { allCountries } = this.state;
+    const { filesData } = this.state;
     const { currentPage, totalPages, pageLimit } = data;
     const offset = (currentPage - 1) * pageLimit;
-    const currentCountries = allCountries.slice(offset, offset + pageLimit);
+    const currentFiles = filesData.slice(offset, offset + pageLimit);
 
-    this.setState({ currentPage, currentCountries, totalPages });
+    this.setState({ currentPage, currentFiles, totalPages });
   }
 
   render() {
-    const { allCountries, currentCountries, currentPage, totalPages, filesData } = this.state;
-    const totalCountries = allCountries.length;
+    const {currentPage, totalPages, filesData, currentFiles } = this.state;
+    const totalData = filesData.length;
 
-    if (totalCountries === 0) return null;
+    if (totalData === 0) return null;
 
     const headerClass = ['text-dark py-2 pr-4 m-0', currentPage ? 'border-gray border-right' : ''].join(' ').trim();
 
@@ -69,7 +69,7 @@ class Page2Wrapped extends Component {
               <div className="w-100 px-4 py-5 d-flex flex-row flex-wrap align-items-center justify-content-between">
                 <div className="d-flex flex-row align-items-center">
                   <h2 className={headerClass}>
-                    <strong className="text-secondary">{totalCountries}</strong> Countries
+                    <strong className="text-secondary">{totalData}</strong> Documents
                   </h2>
                   { currentPage && (
                     <span className="current-page d-inline-block h-100 pl-4 text-secondary">
@@ -78,16 +78,15 @@ class Page2Wrapped extends Component {
                   ) }
                 </div>
                 <div className="d-flex flex-row py-4 align-items-center">
-                  <Pagination totalRecords={totalCountries} pageLimit={18} pageNeighbours={1} onPageChanged={this.onPageChanged} />
+                  <Pagination totalRecords={totalData} pageLimit={4} pageNeighbours={1} onPageChanged={this.onPageChanged} />
                 </div>
               </div>
-              { filesData.map(file => <CountryCard key={file.download_link} file={file} />) }
+              { currentFiles.map(file => <FileCard key={file.download_link} file={file} />) }
             </div>
             </Col>
 
             <Col> 
               <Row><Upload/></Row>
-              {filesData.map(file => <div>{file.fileName}</div>)}
             </Col>
           </Row>
 
