@@ -1,0 +1,8 @@
+{
+    "basePackage": "com.dpdm.storageapi",
+    "configPackage": "com.dpdm.storageapi.config",
+    "apiPackage": "com.dpdm.storageapi.controllers",
+    "modelPackage": "com.dpdm.storageapi.model",
+    "groupId": "com.dpdm",
+    "artifactId": "storageapi"
+}
