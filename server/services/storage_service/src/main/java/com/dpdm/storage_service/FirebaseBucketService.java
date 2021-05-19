@@ -3,6 +3,7 @@ package com.dpdm.storage_service;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -29,7 +30,7 @@ public class FirebaseBucketService implements StorageService{
     public void store(MultipartFile file,FirebaseToken user) {
         
         BlobId blobId = BlobId.of(FirebaseConfig.getBucketName(), file.getOriginalFilename());
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setMetadata(new HashMap<String,String>(){{put("user","tamas");}}).build();
         try {
             FirebaseConfig.getStorage().create(blobInfo, file.getBytes());
             // WriteBatch batch = FirebaseConfig.getFirestore().batch();

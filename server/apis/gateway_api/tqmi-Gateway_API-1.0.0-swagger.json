@@ -29,6 +29,9 @@
                 }
               }
             }
+          },
+          "204" : {
+            "description" : "user not in db, update info with PUT"
           }
         }
       },
@@ -54,6 +57,20 @@
         "responses" : {
           "200" : {
             "description" : "OK"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "User" ],
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "summary" : "delete user in db",
+        "description" : "delete user details",
+        "operationId" : "deleteUser",
+        "responses" : {
+          "200" : {
+            "description" : "ok"
           }
         }
       }
@@ -114,7 +131,7 @@
           }
         }
       },
-      "put" : {
+      "post" : {
         "security" : [ {
           "bearerAuth" : [ ]
         } ],
@@ -134,10 +151,17 @@
         } ],
         "requestBody" : {
           "required" : true,
+          "description" : "The file",
           "content" : {
-            "application/json" : {
+            "multipart/form-data" : {
               "schema" : {
-                "$ref" : "#/components/schemas/FileResponse"
+                "type" : "object",
+                "properties" : {
+                  "filename" : {
+                    "type" : "string",
+                    "format" : "binary"
+                  }
+                }
               }
             }
           }
@@ -145,6 +169,42 @@
         "responses" : {
           "200" : {
             "description" : "OK"
+          }
+        }
+      }
+    },
+    "/institution/{id}/files" : {
+      "get" : {
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "Institution" ],
+        "summary" : "get lsit of files signed by the institution",
+        "description" : "asd",
+        "operationId" : "getInstitutionFiles",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "description" : "institutions id",
+          "schema" : {
+            "type" : "string",
+            "format" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/FileResponse"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -243,6 +303,32 @@
           }
         }
       }
+    },
+    "/files/{fileid}/sign" : {
+      "put" : {
+        "tags" : [ "File" ],
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "summary" : "sign file",
+        "description" : "sign file pointed by fileid",
+        "operationId" : "signFile",
+        "parameters" : [ {
+          "name" : "fileid",
+          "in" : "path",
+          "required" : true,
+          "description" : "the files id",
+          "schema" : {
+            "type" : "string",
+            "format" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -292,6 +378,14 @@
           "accessLevel" : {
             "type" : "string",
             "format" : "string"
+          },
+          "type" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "institutionLink" : {
+            "type" : "string",
+            "format" : "string"
           }
         }
       },
@@ -309,6 +403,16 @@
           "fileid" : {
             "type" : "string",
             "format" : "string"
+          },
+          "status" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "signedBy" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/User"
+            }
           }
         }
       }

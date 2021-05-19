@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-18T19:45:07.825591900+03:00[Europe/Bucharest]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-19T18:35:22.034933700+03:00[Europe/Bucharest]")
 @Validated
 @Api(value = "user", description = "the user API")
 public interface UserApi {
@@ -31,17 +31,40 @@ public interface UserApi {
     }
 
     /**
+     * DELETE /user/info : delete user in db
+     * delete user details
+     *
+     * @return ok (status code 200)
+     */
+    @ApiOperation(value = "delete user in db", nickname = "deleteUser", notes = "delete user details", authorizations = {
+        
+        @Authorization(value = "bearerAuth")
+         }, tags={ "User", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "ok") })
+    @DeleteMapping(
+        value = "/user/info"
+    )
+    default ResponseEntity<Void> deleteUser() {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
      * GET /user/info : Get the user information
      * asd
      *
      * @return OK (status code 200)
+     *         or user not in db, update info with PUT (status code 204)
      */
     @ApiOperation(value = "Get the user information", nickname = "getUserInfo", notes = "asd", response = User.class, authorizations = {
         
         @Authorization(value = "bearerAuth")
          }, tags={ "User", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = User.class) })
+        @ApiResponse(code = 200, message = "OK", response = User.class),
+        @ApiResponse(code = 204, message = "user not in db, update info with PUT") })
     @GetMapping(
         value = "/user/info",
         produces = { "applicatino/json" }

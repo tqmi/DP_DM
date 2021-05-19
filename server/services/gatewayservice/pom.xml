@@ -49,6 +49,12 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.dpdm</groupId>
+			<artifactId>gateway_api</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

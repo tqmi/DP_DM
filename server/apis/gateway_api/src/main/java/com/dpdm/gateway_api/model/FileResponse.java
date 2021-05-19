@@ -1,10 +1,13 @@
 package com.dpdm.gateway_api.model;
 
 import java.util.Objects;
+import com.dpdm.gateway_api.model.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -12,7 +15,7 @@ import javax.validation.constraints.*;
 /**
  * FileResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-18T19:45:07.825591900+03:00[Europe/Bucharest]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-19T18:35:22.034933700+03:00[Europe/Bucharest]")
 public class FileResponse   {
   @JsonProperty("fileName")
   private String fileName;
@@ -22,6 +25,13 @@ public class FileResponse   {
 
   @JsonProperty("fileid")
   private String fileid;
+
+  @JsonProperty("status")
+  private String status;
+
+  @JsonProperty("signedBy")
+  @Valid
+  private List<User> signedBy = null;
 
   public FileResponse fileName(String fileName) {
     this.fileName = fileName;
@@ -83,6 +93,55 @@ public class FileResponse   {
     this.fileid = fileid;
   }
 
+  public FileResponse status(String status) {
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * Get status
+   * @return status
+  */
+  @ApiModelProperty(value = "")
+
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public FileResponse signedBy(List<User> signedBy) {
+    this.signedBy = signedBy;
+    return this;
+  }
+
+  public FileResponse addSignedByItem(User signedByItem) {
+    if (this.signedBy == null) {
+      this.signedBy = new ArrayList<>();
+    }
+    this.signedBy.add(signedByItem);
+    return this;
+  }
+
+  /**
+   * Get signedBy
+   * @return signedBy
+  */
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<User> getSignedBy() {
+    return signedBy;
+  }
+
+  public void setSignedBy(List<User> signedBy) {
+    this.signedBy = signedBy;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -95,12 +154,14 @@ public class FileResponse   {
     FileResponse fileResponse = (FileResponse) o;
     return Objects.equals(this.fileName, fileResponse.fileName) &&
         Objects.equals(this.owner, fileResponse.owner) &&
-        Objects.equals(this.fileid, fileResponse.fileid);
+        Objects.equals(this.fileid, fileResponse.fileid) &&
+        Objects.equals(this.status, fileResponse.status) &&
+        Objects.equals(this.signedBy, fileResponse.signedBy);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fileName, owner, fileid);
+    return Objects.hash(fileName, owner, fileid, status, signedBy);
   }
 
   @Override
@@ -111,6 +172,8 @@ public class FileResponse   {
     sb.append("    fileName: ").append(toIndentedString(fileName)).append("\n");
     sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
     sb.append("    fileid: ").append(toIndentedString(fileid)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    signedBy: ").append(toIndentedString(signedBy)).append("\n");
     sb.append("}");
     return sb.toString();
   }

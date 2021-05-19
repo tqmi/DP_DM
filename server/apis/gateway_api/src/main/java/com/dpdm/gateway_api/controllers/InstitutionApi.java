@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-18T19:45:07.825591900+03:00[Europe/Bucharest]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-19T18:35:22.034933700+03:00[Europe/Bucharest]")
 @Validated
 @Api(value = "institution", description = "the institution API")
 public interface InstitutionApi {
@@ -29,6 +29,38 @@ public interface InstitutionApi {
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
+
+    /**
+     * GET /institution/{id}/files : get lsit of files signed by the institution
+     * asd
+     *
+     * @param id institutions id (required)
+     * @return OK (status code 200)
+     */
+    @ApiOperation(value = "get lsit of files signed by the institution", nickname = "getInstitutionFiles", notes = "asd", response = FileResponse.class, responseContainer = "List", authorizations = {
+        
+        @Authorization(value = "bearerAuth")
+         }, tags={ "Institution", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = FileResponse.class, responseContainer = "List") })
+    @GetMapping(
+        value = "/institution/{id}/files",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<List<FileResponse>> getInstitutionFiles(@ApiParam(value = "institutions id",required=true) @PathVariable("id") String id) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"owner\" : \"owner\", \"fileName\" : \"fileName\", \"signedBy\" : [ { \"address\" : \"address\", \"accessLevel\" : \"accessLevel\", \"phone\" : \"phone\", \"institutionLink\" : \"institutionLink\", \"name\" : \"name\", \"type\" : \"type\", \"email\" : \"email\" }, { \"address\" : \"address\", \"accessLevel\" : \"accessLevel\", \"phone\" : \"phone\", \"institutionLink\" : \"institutionLink\", \"name\" : \"name\", \"type\" : \"type\", \"email\" : \"email\" } ], \"fileid\" : \"fileid\", \"status\" : \"status\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
 
     /**
      * GET /institution/{id}/templates : get lsit of templates
@@ -48,7 +80,7 @@ public interface InstitutionApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"owner\" : \"owner\", \"fileName\" : \"fileName\", \"fileid\" : \"fileid\" }";
+                    String exampleString = "{ \"owner\" : \"owner\", \"fileName\" : \"fileName\", \"signedBy\" : [ { \"address\" : \"address\", \"accessLevel\" : \"accessLevel\", \"phone\" : \"phone\", \"institutionLink\" : \"institutionLink\", \"name\" : \"name\", \"type\" : \"type\", \"email\" : \"email\" }, { \"address\" : \"address\", \"accessLevel\" : \"accessLevel\", \"phone\" : \"phone\", \"institutionLink\" : \"institutionLink\", \"name\" : \"name\", \"type\" : \"type\", \"email\" : \"email\" } ], \"fileid\" : \"fileid\", \"status\" : \"status\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -60,11 +92,11 @@ public interface InstitutionApi {
 
 
     /**
-     * PUT /institution/{id}/templates : upload template
+     * POST /institution/{id}/templates : upload template
      * asd
      *
      * @param id institutions id (required)
-     * @param fileResponse  (required)
+     * @param filename  (optional)
      * @return OK (status code 200)
      */
     @ApiOperation(value = "upload template", nickname = "uploadInstitutionTemplate", notes = "asd", authorizations = {
@@ -73,11 +105,11 @@ public interface InstitutionApi {
          }, tags={ "Institution", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK") })
-    @PutMapping(
+    @PostMapping(
         value = "/institution/{id}/templates",
-        consumes = { "application/json" }
+        consumes = { "multipart/form-data" }
     )
-    default ResponseEntity<Void> uploadInstitutionTemplate(@ApiParam(value = "institutions id",required=true) @PathVariable("id") String id,@ApiParam(value = "" ,required=true )  @Valid @RequestBody FileResponse fileResponse) {
+    default ResponseEntity<Void> uploadInstitutionTemplate(@ApiParam(value = "institutions id",required=true) @PathVariable("id") String id,@ApiParam(value = "") @Valid @RequestPart(value = "filename", required = false) MultipartFile filename) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
