@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.NativeWebRequest;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-18T19:45:07.825591900+03:00[Europe/Bucharest]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-19T18:35:22.034933700+03:00[Europe/Bucharest]")
 @Controller
 @RequestMapping("${openapi.gateway.base-path:}")
 public class InstitutionApiController implements InstitutionApi {

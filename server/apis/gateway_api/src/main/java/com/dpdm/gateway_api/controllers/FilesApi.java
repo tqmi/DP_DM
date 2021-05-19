@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-18T19:45:07.825591900+03:00[Europe/Bucharest]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-19T18:35:22.034933700+03:00[Europe/Bucharest]")
 @Validated
 @Api(value = "files", description = "the files API")
 public interface FilesApi {
@@ -73,12 +73,34 @@ public interface FilesApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"owner\" : \"owner\", \"fileName\" : \"fileName\", \"fileid\" : \"fileid\" }";
+                    String exampleString = "{ \"owner\" : \"owner\", \"fileName\" : \"fileName\", \"signedBy\" : [ { \"address\" : \"address\", \"accessLevel\" : \"accessLevel\", \"phone\" : \"phone\", \"institutionLink\" : \"institutionLink\", \"name\" : \"name\", \"type\" : \"type\", \"email\" : \"email\" }, { \"address\" : \"address\", \"accessLevel\" : \"accessLevel\", \"phone\" : \"phone\", \"institutionLink\" : \"institutionLink\", \"name\" : \"name\", \"type\" : \"type\", \"email\" : \"email\" } ], \"fileid\" : \"fileid\", \"status\" : \"status\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
             }
         });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * PUT /files/{fileid}/sign : sign file
+     * sign file pointed by fileid
+     *
+     * @param fileid the files id (required)
+     * @return OK (status code 200)
+     */
+    @ApiOperation(value = "sign file", nickname = "signFile", notes = "sign file pointed by fileid", authorizations = {
+        
+        @Authorization(value = "bearerAuth")
+         }, tags={ "File", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK") })
+    @PutMapping(
+        value = "/files/{fileid}/sign"
+    )
+    default ResponseEntity<Void> signFile(@ApiParam(value = "the files id",required=true) @PathVariable("fileid") String fileid) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-18T19:45:07.825591900+03:00[Europe/Bucharest]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-19T18:35:22.034933700+03:00[Europe/Bucharest]")
 public class User   {
   @JsonProperty("name")
   private String name;
@@ -28,6 +28,12 @@ public class User   {
 
   @JsonProperty("accessLevel")
   private String accessLevel;
+
+  @JsonProperty("type")
+  private String type;
+
+  @JsonProperty("institutionLink")
+  private String institutionLink;
 
   public User name(String name) {
     this.name = name;
@@ -129,6 +135,46 @@ public class User   {
     this.accessLevel = accessLevel;
   }
 
+  public User type(String type) {
+    this.type = type;
+    return this;
+  }
+
+  /**
+   * Get type
+   * @return type
+  */
+  @ApiModelProperty(value = "")
+
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public User institutionLink(String institutionLink) {
+    this.institutionLink = institutionLink;
+    return this;
+  }
+
+  /**
+   * Get institutionLink
+   * @return institutionLink
+  */
+  @ApiModelProperty(value = "")
+
+
+  public String getInstitutionLink() {
+    return institutionLink;
+  }
+
+  public void setInstitutionLink(String institutionLink) {
+    this.institutionLink = institutionLink;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -143,12 +189,14 @@ public class User   {
         Objects.equals(this.email, user.email) &&
         Objects.equals(this.address, user.address) &&
         Objects.equals(this.phone, user.phone) &&
-        Objects.equals(this.accessLevel, user.accessLevel);
+        Objects.equals(this.accessLevel, user.accessLevel) &&
+        Objects.equals(this.type, user.type) &&
+        Objects.equals(this.institutionLink, user.institutionLink);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, email, address, phone, accessLevel);
+    return Objects.hash(name, email, address, phone, accessLevel, type, institutionLink);
   }
 
   @Override
@@ -161,6 +209,8 @@ public class User   {
     sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("    accessLevel: ").append(toIndentedString(accessLevel)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    institutionLink: ").append(toIndentedString(institutionLink)).append("\n");
     sb.append("}");
     return sb.toString();
   }
