@@ -1,6 +1,7 @@
 package com.dpdm.gatewayservice.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,17 +62,15 @@ public class GatewayInstitutionController extends InstitutionApiController{
     }
 
     public ResponseEntity<List<FileResponse>> getInstitutionTemplates(@Parameter(in = ParameterIn.PATH, description = "institutions id", required=true, schema=@Schema()) @PathVariable("id") String id) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<FileResponse>>(objectMapper.readValue("[ {\n  \"owner\" : \"owner\",\n  \"fileName\" : \"fileName\",\n  \"signedBy\" : [ {\n    \"institutionlink\" : \"institutionlink\",\n    \"address\" : \"address\",\n    \"phone\" : \"phone\",\n    \"accesslevel\" : \"accesslevel\",\n    \"name\" : \"name\",\n    \"type\" : \"type\",\n    \"email\" : \"email\"\n  }, {\n    \"institutionlink\" : \"institutionlink\",\n    \"address\" : \"address\",\n    \"phone\" : \"phone\",\n    \"accesslevel\" : \"accesslevel\",\n    \"name\" : \"name\",\n    \"type\" : \"type\",\n    \"email\" : \"email\"\n  } ],\n  \"fileid\" : \"fileid\",\n  \"status\" : \"status\"\n}, {\n  \"owner\" : \"owner\",\n  \"fileName\" : \"fileName\",\n  \"signedBy\" : [ {\n    \"institutionlink\" : \"institutionlink\",\n    \"address\" : \"address\",\n    \"phone\" : \"phone\",\n    \"accesslevel\" : \"accesslevel\",\n    \"name\" : \"name\",\n    \"type\" : \"type\",\n    \"email\" : \"email\"\n  }, {\n    \"institutionlink\" : \"institutionlink\",\n    \"address\" : \"address\",\n    \"phone\" : \"phone\",\n    \"accesslevel\" : \"accesslevel\",\n    \"name\" : \"name\",\n    \"type\" : \"type\",\n    \"email\" : \"email\"\n  } ],\n  \"fileid\" : \"fileid\",\n  \"status\" : \"status\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<FileResponse>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+        List<FileResponse> list = new ArrayList<FileResponse>();
 
-        return new ResponseEntity<List<FileResponse>>(HttpStatus.NOT_IMPLEMENTED);
+        if(id.equals("1")){
+            list.add(new FileResponse().fileName("template1").fileid("1").owner("Institution1").status("new"));
+            list.add(new FileResponse().fileName("template2").fileid("2").owner("Institution1").status("new"));
+            list.add(new FileResponse().fileName("template3").fileid("3").owner("Institution1").status("new"));
+            list.add(new FileResponse().fileName("template4").fileid("4").owner("Institution1").status("new"));
+        }
+        return new ResponseEntity<List<FileResponse>>(list,HttpStatus.OK);
     }
 
     public ResponseEntity<List<Institution>> getInstitutions() {

@@ -33,7 +33,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-20T13:27:23.285Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-20T13:45:16.599Z[GMT]")
 @Validated
 public interface FileApi {
 
@@ -41,7 +41,7 @@ public interface FileApi {
         @SecurityRequirement(name = "bearerAuth")    }, tags={ "File" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = String.class))) })
-    @RequestMapping(value = "/files/{fileid}",
+    @RequestMapping(value = "/files/{fileid}/dlink",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<String> getDownloadLink(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("fileid") String fileid);
