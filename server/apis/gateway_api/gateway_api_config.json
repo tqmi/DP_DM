@@ -1,8 +1,0 @@
-{
-    "basePackage": "com.dpdm.gateway_api",
-    "configPackage": "com.dpdm.gateway_api.config",
-    "apiPackage": "com.dpdm.gateway_api.controllers",
-    "modelPackage": "com.dpdm.gateway_api.model",
-    "groupId": "com.dpdm",
-    "artifactId": "gateway_api"
-  }

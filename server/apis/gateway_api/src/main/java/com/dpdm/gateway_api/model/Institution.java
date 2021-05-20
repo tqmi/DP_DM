@@ -1,27 +1,41 @@
 package com.dpdm.gateway_api.model;
 
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.jackson.nullable.JsonNullable;
+import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serializable;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import javax.xml.bind.annotation.*;
 
 /**
  * Institution
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-19T18:35:22.034933700+03:00[Europe/Bucharest]")
-public class Institution   {
+@Validated
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-20T13:27:23.285Z[GMT]")
+@JacksonXmlRootElement(localName = "Institution")
+@XmlRootElement(name = "Institution")
+@XmlAccessorType(XmlAccessType.FIELD)@JsonInclude(JsonInclude.Include.NON_NULL)
+
+public class Institution  implements Serializable  {
+  private static final long serialVersionUID = 1L;
+
   @JsonProperty("id")
-  private String id;
+  @JacksonXmlProperty(localName = "id")
+  private String id = null;
 
   @JsonProperty("name")
-  private String name;
+  @JacksonXmlProperty(localName = "name")
+  private String name = null;
 
   @JsonProperty("location")
-  private String location;
+  @JacksonXmlProperty(localName = "location")
+  private String location = null;
 
   public Institution id(String id) {
     this.id = id;
@@ -31,11 +45,10 @@ public class Institution   {
   /**
    * Get id
    * @return id
-  */
-  @ApiModelProperty(value = "")
-
-
-  public String getId() {
+   **/
+  @Schema(description = "")
+  
+    public String getId() {
     return id;
   }
 
@@ -51,11 +64,10 @@ public class Institution   {
   /**
    * Get name
    * @return name
-  */
-  @ApiModelProperty(value = "")
-
-
-  public String getName() {
+   **/
+  @Schema(description = "")
+  
+    public String getName() {
     return name;
   }
 
@@ -71,11 +83,10 @@ public class Institution   {
   /**
    * Get location
    * @return location
-  */
-  @ApiModelProperty(value = "")
-
-
-  public String getLocation() {
+   **/
+  @Schema(description = "")
+  
+    public String getLocation() {
     return location;
   }
 
@@ -85,7 +96,7 @@ public class Institution   {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -119,11 +130,10 @@ public class Institution   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
 }
-
