@@ -1,37 +1,53 @@
 package com.dpdm.gateway_api.model;
 
 import java.util.Objects;
-import com.dpdm.gateway_api.model.User;
+import com.dpdm.gateway_api.model.MyUser;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.jackson.nullable.JsonNullable;
+import java.io.Serializable;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import javax.xml.bind.annotation.*;
 
 /**
  * FileResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-05-19T18:35:22.034933700+03:00[Europe/Bucharest]")
-public class FileResponse   {
+@Validated
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-20T13:27:23.285Z[GMT]")
+@JacksonXmlRootElement(localName = "FileResponse")
+@XmlRootElement(name = "FileResponse")
+@XmlAccessorType(XmlAccessType.FIELD)@JsonInclude(JsonInclude.Include.NON_NULL)
+
+public class FileResponse  implements Serializable  {
+  private static final long serialVersionUID = 1L;
+
   @JsonProperty("fileName")
-  private String fileName;
+  @JacksonXmlProperty(localName = "fileName")
+  private String fileName = null;
 
   @JsonProperty("owner")
-  private String owner;
+  @JacksonXmlProperty(localName = "owner")
+  private String owner = null;
 
   @JsonProperty("fileid")
-  private String fileid;
+  @JacksonXmlProperty(localName = "fileid")
+  private String fileid = null;
 
   @JsonProperty("status")
-  private String status;
+  @JacksonXmlProperty(localName = "status")
+  private String status = null;
 
   @JsonProperty("signedBy")
+  @JacksonXmlProperty(localName = "signedBy")
   @Valid
-  private List<User> signedBy = null;
+  private List<MyUser> signedBy = null;
 
   public FileResponse fileName(String fileName) {
     this.fileName = fileName;
@@ -41,11 +57,10 @@ public class FileResponse   {
   /**
    * Get fileName
    * @return fileName
-  */
-  @ApiModelProperty(value = "")
-
-
-  public String getFileName() {
+   **/
+  @Schema(description = "")
+  
+    public String getFileName() {
     return fileName;
   }
 
@@ -61,11 +76,10 @@ public class FileResponse   {
   /**
    * Get owner
    * @return owner
-  */
-  @ApiModelProperty(value = "")
-
-
-  public String getOwner() {
+   **/
+  @Schema(description = "")
+  
+    public String getOwner() {
     return owner;
   }
 
@@ -81,11 +95,10 @@ public class FileResponse   {
   /**
    * Get fileid
    * @return fileid
-  */
-  @ApiModelProperty(value = "")
-
-
-  public String getFileid() {
+   **/
+  @Schema(description = "")
+  
+    public String getFileid() {
     return fileid;
   }
 
@@ -101,11 +114,10 @@ public class FileResponse   {
   /**
    * Get status
    * @return status
-  */
-  @ApiModelProperty(value = "")
-
-
-  public String getStatus() {
+   **/
+  @Schema(description = "")
+  
+    public String getStatus() {
     return status;
   }
 
@@ -113,14 +125,14 @@ public class FileResponse   {
     this.status = status;
   }
 
-  public FileResponse signedBy(List<User> signedBy) {
+  public FileResponse signedBy(List<MyUser> signedBy) {
     this.signedBy = signedBy;
     return this;
   }
 
-  public FileResponse addSignedByItem(User signedByItem) {
+  public FileResponse addSignedByItem(MyUser signedByItem) {
     if (this.signedBy == null) {
-      this.signedBy = new ArrayList<>();
+      this.signedBy = new ArrayList<MyUser>();
     }
     this.signedBy.add(signedByItem);
     return this;
@@ -129,22 +141,20 @@ public class FileResponse   {
   /**
    * Get signedBy
    * @return signedBy
-  */
-  @ApiModelProperty(value = "")
-
-  @Valid
-
-  public List<User> getSignedBy() {
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<MyUser> getSignedBy() {
     return signedBy;
   }
 
-  public void setSignedBy(List<User> signedBy) {
+  public void setSignedBy(List<MyUser> signedBy) {
     this.signedBy = signedBy;
   }
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -182,11 +192,10 @@ public class FileResponse   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
 }
-

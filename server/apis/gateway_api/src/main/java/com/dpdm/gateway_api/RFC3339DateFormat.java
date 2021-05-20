@@ -1,38 +1,22 @@
 package com.dpdm.gateway_api;
 
-import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.databind.util.ISO8601Utils;
 
-import java.text.DateFormat;
 import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
-public class RFC3339DateFormat extends DateFormat {
+
+public class RFC3339DateFormat extends ISO8601DateFormat {
+
   private static final long serialVersionUID = 1L;
-  private static final TimeZone TIMEZONE_Z = TimeZone.getTimeZone("UTC");
 
-  private final StdDateFormat fmt = new StdDateFormat()
-          .withTimeZone(TIMEZONE_Z)
-          .withColonInTimeZone(true);
-
-  public RFC3339DateFormat() {
-    this.calendar = new GregorianCalendar();
-  }
-
-  @Override
-  public Date parse(String source, ParsePosition pos) {
-    return fmt.parse(source, pos);
-  }
-
+  // Same as ISO8601DateFormat but serializing milliseconds.
   @Override
   public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition) {
-    return fmt.format(date, toAppendTo, fieldPosition);
+    String value = ISO8601Utils.format(date, true);
+    toAppendTo.append(value);
+    return toAppendTo;
   }
 
-  @Override
-  public Object clone() {
-    return this;
-  }
 }
