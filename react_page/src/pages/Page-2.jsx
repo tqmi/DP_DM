@@ -36,7 +36,7 @@ class Page2Wrapped extends Component {
     this.setState({ allCountries });
 
     this.props.getFileApi.operation().then(response => {
-      console.log(response.data);
+      console.log(response);
       this.setState({filesData: response.data});
       console.log(this.state.filesData);
     });
@@ -78,10 +78,10 @@ class Page2Wrapped extends Component {
                   ) }
                 </div>
                 <div className="d-flex flex-row py-4 align-items-center">
-                  <Pagination totalRecords={totalData} pageLimit={4} pageNeighbours={1} onPageChanged={this.onPageChanged} />
+                  <Pagination totalRecords={totalData} pageLimit={6} pageNeighbours={1} onPageChanged={this.onPageChanged} />
                 </div>
               </div>
-              { currentFiles.map(file => <FileCard key={file.download_link} file={file} />) }
+              { currentFiles.map(file => <FileCard  file={file} />) }
             </div>
             </Col>
 
