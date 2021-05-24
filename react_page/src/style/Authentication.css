@@ -2,7 +2,7 @@
     box-sizing: border-box;
   }
   
-  body {
+  .Authentication {
     min-height: 100vh;
     display: flex;
     font-weight: 400;
@@ -13,15 +13,11 @@
     
   }
   
-  body, html, .App, #root, .outer {
+  body, html, .Authentication, #root, .outer {
     width: 100%;
     height: 100%;
   }
   
-  .navbar-light {
-    background-color: #ffffff;
-    box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
-  }
   
   .outer {
     display: flex;
@@ -51,20 +47,4 @@
     line-height: 1;
     padding-bottom: 20px;
   }
-  
-  .custom-control-label {
-    font-weight: 400;
-  }
-  
-  .forgot-password,
-  .forgot-password a {
-    text-align: right;
-    font-size: 13px;
-    padding-top: 10px;
-    color: #7f7d7d;
-    margin: 0;
-  }
-  
-  .forgot-password a {
-    color: #167bff;
-  }
+ 

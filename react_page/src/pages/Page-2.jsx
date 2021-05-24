@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Countries from 'countries-api';
 import '../style/Page2.css';
 import Pagination from '../components/Page2Comp/Pagination';
 import FileCard from '../components/Page2Comp/FileCard';
@@ -31,9 +30,6 @@ class Page2Wrapped extends Component {
 
 
   componentDidMount() {
-    const { data: allCountries = [] } = Countries.findAll();
-    console.log(allCountries);
-    this.setState({ allCountries });
 
     this.props.getFileApi.operation().then(response => {
       console.log(response);

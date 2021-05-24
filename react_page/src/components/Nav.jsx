@@ -37,7 +37,7 @@ function Nav(props) {
     <Navbar.Toggle />
     <Navbar.Collapse className="justify-content-end">
       <Navbar.Text>
-        Signed in as: <a href="#login">{user ? user.displayName : "shit"}</a>
+        Signed in as: <a href="#login">{user ? user.displayName : "not logged in"}</a>
       </Navbar.Text>
       {user ?   <button onClick={() => auth.signOut()}> Sign out</button> : <button onClick={signInWithGoogle}> Sign In</button>} 
     </Navbar.Collapse>
