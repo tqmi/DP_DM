@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Routes from "../routes";
 import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 import Sidebar from "./Sidebar";
@@ -20,16 +20,34 @@ import { auth ,firebase} from '../firebase';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 
+import {useState} from 'react';
+import { useOperationMethod } from 'react-openapi-client';
+
 
 function Layout(props) {
 
   const [user] = useAuthState(auth);
-  console.log(user);
+
+  const [account, setAccount] = useState(null);
+  const [getAccount,{ loading, data, error }] = useOperationMethod('getUserInfo');
+
   const [isOpen, setIsOpen] = React.useState(false)
   const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState)
 
     }
+
+  useEffect(() => { 
+    if(user) 
+    {
+      user.getIdToken().then((token) => getAccount(null,null,{headers:{'Authorization' : "Bearer " + token}}).then((res) => console.log(res))); 
+      
+    }
+
+   }, 
+   [user]
+  ) 
+
   if(user)
   {
     return (
