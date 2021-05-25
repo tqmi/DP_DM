@@ -17,6 +17,7 @@ import com.google.cloud.firestore.Firestore;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.StreamingHttpOutputMessage.Body;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -89,12 +90,15 @@ public class UserController extends UserApiController{
             DocumentReference userdoc = userCol.document(id);
             DocumentSnapshot usersnap = userdoc.get().get(); 
             if(usersnap.exists()){
+                System.out.println("sending 200");
                 return ResponseEntity.status(HttpStatus.OK).body(usersnap.toObject(MyUser.class));
             }else{
+                System.out.println("sending 404");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
+            System.out.println("sending 500");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

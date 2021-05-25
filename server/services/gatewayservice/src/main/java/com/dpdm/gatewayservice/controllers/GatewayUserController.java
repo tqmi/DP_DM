@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,7 +32,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
+@CrossOrigin
 @RestController
 public class GatewayUserController extends UserApiController{
 
@@ -76,7 +77,7 @@ public class GatewayUserController extends UserApiController{
 
     public ResponseEntity<MyUser> getUserInfo() {
         InternalUser user = userProvider.getUser(request);
-        if(user == null){
+        if(user.getUser() == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         return new ResponseEntity<MyUser>(user.getUser(),HttpStatus.OK);

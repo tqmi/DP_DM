@@ -10,6 +10,12 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 public class UserProvider {
@@ -40,10 +46,16 @@ public class UserProvider {
             e.printStackTrace();
             return null;
         }
-
-        MyUser user;
-
-        user = restTemplate.getForEntity(serviceProvider.getServiceURI("user_service") + "/user/{id}", MyUser.class, userToken.getUid()).getBody();
+        System.out.println("here");
+        MyUser user = null;
+        try{
+            user = restTemplate.getForObject(serviceProvider.getServiceURI("user_service") + "user/{id}",MyUser.class, userToken.getUid());
+        }catch(RestClientResponseException e){
+            user = null;
+        }
+            
+            // if(resp.hasBody())
+        //     user = (MyUser)resp.getBody();
 
         return new InternalUser(user,userToken.getUid());
         // return restTemplate.getForEntity( serviceProvider.getServiceURI("auth_service") + "/user/info",User.class,auth).getBody();
