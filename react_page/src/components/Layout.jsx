@@ -3,7 +3,9 @@ import Routes from "../routes";
 import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Nav from "./Nav";
-import Authentication from "./Authentication";
+import Login from "./Authentication/Login";
+import SignUpUser from "./Authentication/SignUpUser";
+import PickUserType from "./Authentication/PickUserType";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Card } from "react-bootstrap";
 
@@ -26,6 +28,7 @@ import { useOperationMethod } from 'react-openapi-client';
 
 function Layout(props) {
 
+
   const [user] = useAuthState(auth);
 
   const [account, setAccount] = useState(null);
@@ -37,39 +40,80 @@ function Layout(props) {
 
     }
 
-  useEffect(() => { 
-    if(user) 
-    {
-      user.getIdToken().then((token) => getAccount(null,null,{headers:{'Authorization' : "Bearer " + token}}).then((res) => console.log(res))); 
-      
+    const getAccountData = (resp) => {
+      if(resp){
+        setAccount(resp.data);
+      }
+      else
+      {
+        setAccount(null);
+      }
     }
-
-   }, 
-   [user]
-  ) 
+  
+    const sendReqWithToken = (req,params,args,options,succ) => {
+      user.getIdToken().then(
+        (token) => {
+          options = {headers:{'Authorization' : "Bearer " + token}};
+          req(params,args,options).then(
+            succ
+          )
+        }
+      )
+    }
+  
+  
+    useEffect(() => { 
+      if(user) 
+      {
+        // user.getIdToken()
+        // .then(
+        //   (token) => {
+        //       getAccount(null,null,{headers:{'Authorization' : "Bearer " + token}})
+        //       .then(
+        //         getAccountData
+        //       )
+        //   }
+        // );
+        sendReqWithToken(getAccount,null,null,{},getAccountData);
+  
+      }
+  
+     }, 
+     [user]
+    )
+  
 
   if(user)
   {
-    return (
-
+    if(account){
+      return (
+        <Container fluid className="vh-100 d-flex flex-column ">
     
-      <Container fluid className="vh-100 d-flex flex-column ">
-  
-          <Row className='header'>
-          <Col  sm='0.3'><AiOutlineMenu onClick={toggleDrawer}  color="white" size={50}/></Col>
-            <Col><Nav/> </Col>
-          </Row>
-  
-          <Row className="h-100">
-            
-            <Drawer open={isOpen} onClose={toggleDrawer} direction='left'>
-                <Sidebar history={props.history} />
-            </Drawer>
-            <Col> {props.children} </Col>
-          </Row>
-        
-        </Container>
-    );
+            <Row className='header'>
+            <Col  sm='0.3'><AiOutlineMenu onClick={toggleDrawer}  color="white" size={50}/></Col>
+              <Col><Nav/> </Col>
+            </Row>
+    
+            <Row className="h-100">
+              
+              <Drawer open={isOpen} onClose={toggleDrawer} direction='left'>
+                  <Sidebar history={props.history} />
+              </Drawer>
+              <Col> {props.children} </Col>
+            </Row>
+          
+          </Container>
+      );
+    }
+    else
+    {
+      return (
+      <>
+      <Nav/>
+      <PickUserType userData = {user}/>
+      </>
+      );
+    }
   }
   else
   {
@@ -78,8 +122,7 @@ function Layout(props) {
     //  </Route>
     return (
       <>
-      
-      <Authentication/>
+      <Login/>
       </>
     );
   }
