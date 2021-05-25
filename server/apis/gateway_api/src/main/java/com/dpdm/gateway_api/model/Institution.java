@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.*;
  * Institution
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-20T13:27:23.285Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-25T09:32:59.971Z[GMT]")
 @JacksonXmlRootElement(localName = "Institution")
 @XmlRootElement(name = "Institution")
 @XmlAccessorType(XmlAccessType.FIELD)@JsonInclude(JsonInclude.Include.NON_NULL)

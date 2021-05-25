@@ -32,9 +32,19 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-20T13:27:23.285Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-25T09:32:59.971Z[GMT]")
 @Validated
 public interface UserApi {
+
+    @Operation(summary = "create user details in db", description = "create user", security = {
+        @SecurityRequirement(name = "bearerAuth")    }, tags={ "User" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "OK") })
+    @RequestMapping(value = "/user/info",
+        consumes = { "application/json" }, 
+        method = RequestMethod.POST)
+    ResponseEntity<Void> createUser(@Parameter(in = ParameterIn.DEFAULT, description = "the users new details", required=true, schema=@Schema()) @Valid @RequestBody MyUser body);
+
 
     @Operation(summary = "delete user in db", description = "delete user details", security = {
         @SecurityRequirement(name = "bearerAuth")    }, tags={ "User" })

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import com.dpdm.gateway_api.api.UserApiController;
 import com.dpdm.gateway_api.model.MyUser;
+import com.dpdm.gatewayservice.models.InternalUser;
 import com.dpdm.gatewayservice.service_providers.ServiceProvider;
 import com.dpdm.gatewayservice.service_providers.UserProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +42,6 @@ public class GatewayUserController extends UserApiController{
         //TODO Auto-generated constructor stub
     }
 
-
     @Autowired
     ServiceProvider serviceProvider;
     
@@ -53,17 +53,44 @@ public class GatewayUserController extends UserApiController{
 
 
     public ResponseEntity<Void> deleteUser() {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        InternalUser user = userProvider.getUser(request);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        restTemplate.delete(serviceProvider.getServiceURI("user_service") + "/user/{id}",user.getUid());
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> createUser(@Parameter(in = ParameterIn.DEFAULT, description = "the users new details", required=true, schema=@Schema()) @Valid @RequestBody MyUser body) {
+        InternalUser user = userProvider.getUser(request);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        restTemplate.postForEntity(serviceProvider.getServiceURI("user_service") + "/user/{id}",body,Void.class,user.getUid());
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     public ResponseEntity<MyUser> getUserInfo() {
-        return new ResponseEntity<MyUser>(userProvider.getUser(request),HttpStatus.OK);
+        InternalUser user = userProvider.getUser(request);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return new ResponseEntity<MyUser>(user.getUser(),HttpStatus.OK);
     }
 
     public ResponseEntity<Void> updateUser(@Parameter(in = ParameterIn.DEFAULT, description = "the users new details", required=true, schema=@Schema()) @Valid @RequestBody MyUser body) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        InternalUser user = userProvider.getUser(request);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        restTemplate.put(serviceProvider.getServiceURI("user_service") + "/user/{id}",body,user.getUid());
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 
