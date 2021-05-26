@@ -21,6 +21,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -57,7 +59,7 @@ public class GatewayFilesController extends FileApiController{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        String resp = restTemplate.getForObject(serviceProvider.getServiceURI("storage_service") + "/" + user.getUid() + "/file/" + fileid, String.class);
+        String resp = restTemplate.getForObject(serviceProvider.getServiceURI("storage_service") + "/" + user.getUid() + "/file/" + fileid + "/dlink", String.class);
 
         return new ResponseEntity<String>(resp,HttpStatus.OK);
     }
@@ -89,12 +91,14 @@ public class GatewayFilesController extends FileApiController{
         }
         
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         
-        HttpEntity<MultipartFile> request = new HttpEntity<MultipartFile>(filename,headers);
         
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("filename", filename.getResource());
+        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body,headers);
 
-        restTemplate.postForObject(serviceProvider.getServiceURI("storage_service") + "/" + user.getUid() + "/files", request,Void.class);
+        restTemplate.postForObject(serviceProvider.getServiceURI("storage_service") + "/{id}/files", request,Void.class,user.getUid());
 
 
         return ResponseEntity.ok().build();
