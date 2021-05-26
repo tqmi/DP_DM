@@ -13,7 +13,12 @@ import com.dpdm.gatewayservice.service_providers.UserProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,7 +75,12 @@ public class GatewayUserController extends UserApiController{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        restTemplate.postForEntity(serviceProvider.getServiceURI("user_service") + "/user/{id}",body,Void.class,user.getUid());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<MyUser> request = new HttpEntity<MyUser>(body, headers);
+
+        restTemplate.postForEntity(serviceProvider.getServiceURI("user_service") + "/user/{id}", request,Void.class,user.getUid());
 
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
@@ -78,7 +88,7 @@ public class GatewayUserController extends UserApiController{
     public ResponseEntity<MyUser> getUserInfo() {
         InternalUser user = userProvider.getUser(request);
         if(user.getUser() == null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
         return new ResponseEntity<MyUser>(user.getUser(),HttpStatus.OK);
     }
@@ -88,8 +98,12 @@ public class GatewayUserController extends UserApiController{
         if(user == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        restTemplate.put(serviceProvider.getServiceURI("user_service") + "/user/{id}",body,user.getUid());
+        HttpEntity<MyUser> request = new HttpEntity<MyUser>(body, headers);
+
+        restTemplate.put(serviceProvider.getServiceURI("user_service") + "/user/{id}",request,user.getUid());
 
         return new ResponseEntity<Void>(HttpStatus.OK);
     }

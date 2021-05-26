@@ -3,11 +3,9 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package com.dpdm.gateway_api.api;
+package com.dpdm.storage_api.api;
 
-import com.dpdm.gateway_api.model.FileResponse;
-import com.dpdm.gateway_api.model.Institution;
-import org.springframework.core.io.Resource;
+import com.dpdm.storage_api.model.Institution;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -34,12 +32,11 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T13:31:21.803Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T14:04:28.989Z[GMT]")
 @Validated
 public interface InstitutionApi {
 
-    @Operation(summary = "create an institution", description = "operationId: createInstitution", security = {
-        @SecurityRequirement(name = "bearerAuth")    }, tags={ "Institution" })
+    @Operation(summary = "create an institution", description = "operationId: createInstitution", tags={ "Institution" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK") })
     @RequestMapping(value = "/institutions",
@@ -48,23 +45,13 @@ public interface InstitutionApi {
     ResponseEntity<Void> createInstitution(@Parameter(in = ParameterIn.DEFAULT, description = "the institution details", required=true, schema=@Schema()) @Valid @RequestBody Institution body);
 
 
-    @Operation(summary = "get lsit of files signed by the institution", description = "operationId: getInstitutionFiles", security = {
-        @SecurityRequirement(name = "bearerAuth")    }, tags={ "Institution" })
+    @Operation(summary = "get lsit of institutions", description = "operationId: getInstitutions", tags={ "Institution" })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "OK", content = @Content(array = @ArraySchema(schema = @Schema(implementation = FileResponse.class)))) })
-    @RequestMapping(value = "/institution/{id}/files",
+        @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Institution.class))) })
+    @RequestMapping(value = "/institution/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<FileResponse>> getInstitutionFiles(@Parameter(in = ParameterIn.PATH, description = "institutions id", required=true, schema=@Schema()) @PathVariable("id") String id);
-
-
-    @Operation(summary = "get lsit of templates", description = "getInstitutionTemplates", tags={ "Institution" })
-    @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "OK", content = @Content(array = @ArraySchema(schema = @Schema(implementation = FileResponse.class)))) })
-    @RequestMapping(value = "/institution/{id}/templates",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<List<FileResponse>> getInstitutionTemplates(@Parameter(in = ParameterIn.PATH, description = "institutions id", required=true, schema=@Schema()) @PathVariable("id") String id);
+    ResponseEntity<Institution> getInstitution(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id);
 
 
     @Operation(summary = "get lsit of institutions", description = "operationId: getInstitutions", tags={ "Institution" })
@@ -74,16 +61,6 @@ public interface InstitutionApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Institution>> getInstitutions();
-
-
-    @Operation(summary = "upload template", description = "uploadInstitutionTemplate", security = {
-        @SecurityRequirement(name = "bearerAuth")    }, tags={ "Institution" })
-    @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "OK") })
-    @RequestMapping(value = "/institution/{id}/templates",
-        consumes = { "multipart/form-data" }, 
-        method = RequestMethod.POST)
-    ResponseEntity<Void> uploadInstitutionTemplate(@Parameter(in = ParameterIn.PATH, description = "institutions id", required=true, schema=@Schema()) @PathVariable("id") String id, @Parameter(description = "file detail") @Valid @RequestPart("file") MultipartFile filename);
 
 }
 

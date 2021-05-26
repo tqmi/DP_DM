@@ -1,4 +1,4 @@
-package com.dpdm.gateway_api.model;
+package com.dpdm.storage_api.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.*;
  * MyUser
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T13:31:21.803Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T14:04:28.989Z[GMT]")
 @JacksonXmlRootElement(localName = "MyUser")
 @XmlRootElement(name = "MyUser")
 @XmlAccessorType(XmlAccessType.FIELD)@JsonInclude(JsonInclude.Include.NON_NULL)

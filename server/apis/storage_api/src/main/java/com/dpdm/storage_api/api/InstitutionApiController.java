@@ -1,6 +1,6 @@
-package com.dpdm.gateway_api.api;
+package com.dpdm.storage_api.api;
 
-import com.dpdm.gateway_api.model.MyUser;
+import com.dpdm.storage_api.model.Institution;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,47 +32,51 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T13:31:21.803Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T14:04:28.989Z[GMT]")
 @RestController
-public class UserApiController implements UserApi {
+public class InstitutionApiController implements InstitutionApi {
 
-    protected static final Logger log = LoggerFactory.getLogger(UserApiController.class);
+    protected static final Logger log = LoggerFactory.getLogger(InstitutionApiController.class);
     protected final ObjectMapper objectMapper;
     protected final HttpServletRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public UserApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public InstitutionApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
         this.request = request;
     }
 
-    public ResponseEntity<Void> createUser(@Parameter(in = ParameterIn.DEFAULT, description = "the users new details", required=true, schema=@Schema()) @Valid @RequestBody MyUser body) {
+    public ResponseEntity<Void> createInstitution(@Parameter(in = ParameterIn.DEFAULT, description = "the institution details", required=true, schema=@Schema()) @Valid @RequestBody Institution body) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> deleteUser() {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
-    public ResponseEntity<MyUser> getUserInfo() {
+    public ResponseEntity<Institution> getInstitution(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<MyUser>(objectMapper.readValue("{\n  \"institutionlink\" : \"institutionlink\",\n  \"address\" : \"address\",\n  \"cnp\" : \"cnp\",\n  \"phone\" : \"phone\",\n  \"accesslevel\" : \"accesslevel\",\n  \"name\" : \"name\",\n  \"type\" : \"type\",\n  \"email\" : \"email\"\n}", MyUser.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Institution>(objectMapper.readValue("{\n  \"name\" : \"name\",\n  \"location\" : \"location\",\n  \"id\" : \"id\"\n}", Institution.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<MyUser>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<Institution>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
-        return new ResponseEntity<MyUser>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Institution>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> updateUser(@Parameter(in = ParameterIn.DEFAULT, description = "the users new details", required=true, schema=@Schema()) @Valid @RequestBody MyUser body) {
+    public ResponseEntity<List<Institution>> getInstitutions() {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        if (accept != null && accept.contains("application/json")) {
+            try {
+                return new ResponseEntity<List<Institution>>(objectMapper.readValue("[ {\n  \"name\" : \"name\",\n  \"location\" : \"location\",\n  \"id\" : \"id\"\n}, {\n  \"name\" : \"name\",\n  \"location\" : \"location\",\n  \"id\" : \"id\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+            } catch (IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<List<Institution>>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        return new ResponseEntity<List<Institution>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
 }

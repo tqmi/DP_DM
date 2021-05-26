@@ -15,9 +15,14 @@ import com.dpdm.gatewayservice.service_providers.UserProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -27,7 +32,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
+@CrossOrigin
 @RestController
 public class GatewayInstitutionController extends InstitutionApiController{
 
@@ -36,7 +41,6 @@ public class GatewayInstitutionController extends InstitutionApiController{
     public GatewayInstitutionController(ObjectMapper objectMapper, HttpServletRequest request) {
         super(objectMapper, request);
     }
-
 
     @Autowired
     ServiceProvider serviceProvider;
@@ -74,19 +78,29 @@ public class GatewayInstitutionController extends InstitutionApiController{
     }
 
     public ResponseEntity<List<Institution>> getInstitutions() {
-        return ResponseEntity.ok(List.of(
-            new Institution().name("Institution1").id("1").location("honolulu1"),
-            new Institution().name("Institution2").id("2").location("honolulu2"),
-            new Institution().name("Institution3").id("3").location("honolulu3"),
-            new Institution().name("Institution4").id("4").location("honolulu4"),
-            new Institution().name("Institution5").id("5").location("honolulu5"),
-            new Institution().name("Institution6").id("6").location("honolulu6"),
-            new Institution().name("Institution7").id("7").location("honolulu7")
-        ));
+
+        List<Institution> resp = null;
+
+        resp = (List<Institution>)restTemplate.getForObject(serviceProvider.getServiceURI("storage_service") + "/institutions", List.class);
+
+        return ResponseEntity.ok().body(resp);
     }
 
     public ResponseEntity<Void> uploadInstitutionTemplate(@Parameter(in = ParameterIn.PATH, description = "institutions id", required=true, schema=@Schema()) @PathVariable("id") String id,@Parameter(description = "file detail") @Valid @RequestPart("file") MultipartFile filename) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    public ResponseEntity<Void> createInstitution(@Parameter(in = ParameterIn.DEFAULT, description = "the institution details", required=true, schema=@Schema()) @Valid @RequestBody Institution body) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+        HttpEntity<Institution> request = new HttpEntity<Institution>(body,headers);
+        
+
+        restTemplate.postForObject(serviceProvider.getServiceURI("storage_service") + "/institutions", request,Void.class);
+
+        return ResponseEntity.ok().build();
     }
 }

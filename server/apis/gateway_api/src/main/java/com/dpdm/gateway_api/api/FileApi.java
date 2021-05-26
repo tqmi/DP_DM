@@ -33,11 +33,11 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-25T09:32:59.971Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T13:31:21.803Z[GMT]")
 @Validated
 public interface FileApi {
 
-    @Operation(summary = "Get file link", description = "Get the download link for the file", security = {
+    @Operation(summary = "Get file link", description = "operationId: getDownloadLink", security = {
         @SecurityRequirement(name = "bearerAuth")    }, tags={ "File" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = String.class))) })
@@ -47,7 +47,7 @@ public interface FileApi {
     ResponseEntity<String> getDownloadLink(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("fileid") String fileid);
 
 
-    @Operation(summary = "Returns a list of filenames,authors and download links", description = "asd", security = {
+    @Operation(summary = "Returns a list of filenames,authors and download links", description = "operationId: getMyFiles", security = {
         @SecurityRequirement(name = "bearerAuth")    }, tags={ "File" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(array = @ArraySchema(schema = @Schema(implementation = FileResponse.class)))) })
@@ -57,7 +57,7 @@ public interface FileApi {
     ResponseEntity<List<FileResponse>> getMyFiles();
 
 
-    @Operation(summary = "sign file", description = "sign file pointed by fileid", security = {
+    @Operation(summary = "sign file", description = "operationId: signFile", security = {
         @SecurityRequirement(name = "bearerAuth")    }, tags={ "File" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK") })
@@ -66,7 +66,7 @@ public interface FileApi {
     ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid);
 
 
-    @Operation(summary = "Uploads the file to the stoarge bucket", description = "asd", security = {
+    @Operation(summary = "Uploads the file to the stoarge bucket", description = "operationId: uploadFile", security = {
         @SecurityRequirement(name = "bearerAuth")    }, tags={ "File" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK"),

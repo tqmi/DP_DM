@@ -1,7 +1,7 @@
-package com.dpdm.gateway_api.model;
+package com.dpdm.storage_api.model;
 
 import java.util.Objects;
-import com.dpdm.gateway_api.model.MyUser;
+import com.dpdm.storage_api.model.MyUser;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.*;
  * FileResponse
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T13:31:21.803Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T14:04:28.989Z[GMT]")
 @JacksonXmlRootElement(localName = "FileResponse")
 @XmlRootElement(name = "FileResponse")
 @XmlAccessorType(XmlAccessType.FIELD)@JsonInclude(JsonInclude.Include.NON_NULL)

@@ -1,4 +1,4 @@
-package com.dpdm.gateway_api.config;
+package com.dpdm.storage_api.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T13:31:21.803Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T14:04:28.989Z[GMT]")
 @Configuration
 public class SwaggerDocumentationConfig {
 
@@ -21,7 +21,7 @@ public class SwaggerDocumentationConfig {
     public Docket customImplementation(){
         return new Docket(DocumentationType.OAS_30)
                 .select()
-                    .apis(RequestHandlerSelectors.basePackage("com.dpdm.gateway_api.api"))
+                    .apis(RequestHandlerSelectors.basePackage("com.dpdm.storage_api.api"))
                     .build()
                 .directModelSubstitute(org.threeten.bp.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.threeten.bp.OffsetDateTime.class, java.util.Date.class)
@@ -30,8 +30,8 @@ public class SwaggerDocumentationConfig {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("Gateway API")
-            .description("Api for sending user info to server and to read user data")
+            .title("Storage API")
+            .description("Storage api")
             .license("")
             .licenseUrl("http://unlicense.org")
             .termsOfServiceUrl("")
@@ -44,8 +44,8 @@ public class SwaggerDocumentationConfig {
     public OpenAPI openApi() {
         return new OpenAPI()
             .info(new Info()
-                .title("Gateway API")
-                .description("Api for sending user info to server and to read user data")
+                .title("Storage API")
+                .description("Storage api")
                 .termsOfService("")
                 .version("1.0.0")
                 .license(new License()
