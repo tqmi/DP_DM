@@ -32,11 +32,21 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-20T13:27:23.285Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T13:31:21.803Z[GMT]")
 @Validated
 public interface UserApi {
 
-    @Operation(summary = "delete user in db", description = "delete user details", security = {
+    @Operation(summary = "create user details in db", description = "operationId: createUser", security = {
+        @SecurityRequirement(name = "bearerAuth")    }, tags={ "User" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "OK") })
+    @RequestMapping(value = "/user/info",
+        consumes = { "application/json" }, 
+        method = RequestMethod.POST)
+    ResponseEntity<Void> createUser(@Parameter(in = ParameterIn.DEFAULT, description = "the users new details", required=true, schema=@Schema()) @Valid @RequestBody MyUser body);
+
+
+    @Operation(summary = "delete user in db", description = "operationId: deleteUser", security = {
         @SecurityRequirement(name = "bearerAuth")    }, tags={ "User" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "ok") })
@@ -45,7 +55,7 @@ public interface UserApi {
     ResponseEntity<Void> deleteUser();
 
 
-    @Operation(summary = "Get the user information", description = "asd", security = {
+    @Operation(summary = "Get the user information", description = "operationId: getUserInfo", security = {
         @SecurityRequirement(name = "bearerAuth")    }, tags={ "User" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = MyUser.class))),
@@ -57,7 +67,7 @@ public interface UserApi {
     ResponseEntity<MyUser> getUserInfo();
 
 
-    @Operation(summary = "update user details in db", description = "update user details", security = {
+    @Operation(summary = "update user details in db", description = "operationId: updateUser", security = {
         @SecurityRequirement(name = "bearerAuth")    }, tags={ "User" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK") })

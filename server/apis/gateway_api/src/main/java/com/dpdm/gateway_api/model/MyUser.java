@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.*;
  * MyUser
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-20T13:27:23.285Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T13:31:21.803Z[GMT]")
 @JacksonXmlRootElement(localName = "MyUser")
 @XmlRootElement(name = "MyUser")
 @XmlAccessorType(XmlAccessType.FIELD)@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -52,6 +52,10 @@ public class MyUser  implements Serializable  {
   @JsonProperty("institutionlink")
   @JacksonXmlProperty(localName = "institutionlink")
   private String institutionlink = null;
+
+  @JsonProperty("cnp")
+  @JacksonXmlProperty(localName = "cnp")
+  private String cnp = null;
 
   public MyUser name(String name) {
     this.name = name;
@@ -186,6 +190,25 @@ public class MyUser  implements Serializable  {
     this.institutionlink = institutionlink;
   }
 
+  public MyUser cnp(String cnp) {
+    this.cnp = cnp;
+    return this;
+  }
+
+  /**
+   * Get cnp
+   * @return cnp
+   **/
+  @Schema(description = "")
+  
+    public String getCnp() {
+    return cnp;
+  }
+
+  public void setCnp(String cnp) {
+    this.cnp = cnp;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -202,12 +225,13 @@ public class MyUser  implements Serializable  {
         Objects.equals(this.phone, myUser.phone) &&
         Objects.equals(this.accesslevel, myUser.accesslevel) &&
         Objects.equals(this.type, myUser.type) &&
-        Objects.equals(this.institutionlink, myUser.institutionlink);
+        Objects.equals(this.institutionlink, myUser.institutionlink) &&
+        Objects.equals(this.cnp, myUser.cnp);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, email, address, phone, accesslevel, type, institutionlink);
+    return Objects.hash(name, email, address, phone, accesslevel, type, institutionlink, cnp);
   }
 
   @Override
@@ -222,6 +246,7 @@ public class MyUser  implements Serializable  {
     sb.append("    accesslevel: ").append(toIndentedString(accesslevel)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    institutionlink: ").append(toIndentedString(institutionlink)).append("\n");
+    sb.append("    cnp: ").append(toIndentedString(cnp)).append("\n");
     sb.append("}");
     return sb.toString();
   }
