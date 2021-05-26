@@ -33,9 +33,18 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T13:31:21.803Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T21:50:35.843Z[GMT]")
 @Validated
 public interface FileApi {
+
+    @Operation(summary = "delete file", description = "", security = {
+        @SecurityRequirement(name = "bearerAuth")    }, tags={ "File" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "ok") })
+    @RequestMapping(value = "/file/{fileId}",
+        method = RequestMethod.DELETE)
+    ResponseEntity<Void> deleteFile(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("fileId") String fileId);
+
 
     @Operation(summary = "Get file link", description = "operationId: getDownloadLink", security = {
         @SecurityRequirement(name = "bearerAuth")    }, tags={ "File" })
@@ -63,7 +72,7 @@ public interface FileApi {
         @ApiResponse(responseCode = "200", description = "OK") })
     @RequestMapping(value = "/files/{fileid}/sign",
         method = RequestMethod.PUT)
-    ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid);
+    ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid, @Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId);
 
 
     @Operation(summary = "Uploads the file to the stoarge bucket", description = "operationId: uploadFile", security = {

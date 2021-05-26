@@ -25,6 +25,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -78,11 +79,6 @@ public class GatewayFilesController extends FileApiController{
         return new ResponseEntity<List<FileResponse>>(resp,HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
     public ResponseEntity<Void> uploadFile(@Parameter(description = "file detail") @Valid @RequestPart("file") MultipartFile filename) {
         
         InternalUser user = userProvider.getUser(request);
@@ -95,7 +91,7 @@ public class GatewayFilesController extends FileApiController{
         
         
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("filename", filename.getResource());
+        body.add("file", filename.getResource());
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body,headers);
 
         restTemplate.postForObject(serviceProvider.getServiceURI("storage_service") + "/{id}/files", request,Void.class,user.getUid());
@@ -104,5 +100,23 @@ public class GatewayFilesController extends FileApiController{
         return ResponseEntity.ok().build();
 
     }
+
+    public ResponseEntity<Void> deleteFile(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("fileId") String fileId) {
+        InternalUser user = userProvider.getUser(request);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        restTemplate.delete(serviceProvider.getServiceURI("storage_service") + "/{id}/file/{fileId}",user.getUid(),fileId);
+
+        return ResponseEntity.ok().build();
+    }
+
+
+    public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid,@Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId) {
+        String accept = request.getHeader("Accept");
+        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
 
 }

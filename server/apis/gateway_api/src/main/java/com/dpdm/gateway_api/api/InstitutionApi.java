@@ -34,7 +34,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T13:31:21.803Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T21:50:35.843Z[GMT]")
 @Validated
 public interface InstitutionApi {
 
@@ -46,6 +46,24 @@ public interface InstitutionApi {
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
     ResponseEntity<Void> createInstitution(@Parameter(in = ParameterIn.DEFAULT, description = "the institution details", required=true, schema=@Schema()) @Valid @RequestBody Institution body);
+
+
+    @Operation(summary = "Get file link", description = "operationId: getDownloadLink", security = {
+        @SecurityRequirement(name = "bearerAuth")    }, tags={ "Institution" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "OK") })
+    @RequestMapping(value = "/institution/{id}/templates/{fileid}",
+        method = RequestMethod.DELETE)
+    ResponseEntity<Void> deleteTemplate(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id, @Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("fileid") String fileid);
+
+
+    @Operation(summary = "get lsit of institutions", description = "operationId: getInstitutions", tags={ "Institution" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Institution.class))) })
+    @RequestMapping(value = "/institution/{id}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Institution> getInstitution(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id);
 
 
     @Operation(summary = "get lsit of files signed by the institution", description = "operationId: getInstitutionFiles", security = {
@@ -74,6 +92,16 @@ public interface InstitutionApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Institution>> getInstitutions();
+
+
+    @Operation(summary = "Get file link", description = "operationId: getDownloadLink", security = {
+        @SecurityRequirement(name = "bearerAuth")    }, tags={ "Institution" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = String.class))) })
+    @RequestMapping(value = "/institution/{id}/templates/{fileid}/dlink",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<String> getTemplateDownloadLink(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id, @Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("fileid") String fileid);
 
 
     @Operation(summary = "upload template", description = "uploadInstitutionTemplate", security = {

@@ -33,9 +33,17 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T14:04:28.989Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T21:51:02.069Z[GMT]")
 @Validated
 public interface FileApi {
+
+    @Operation(summary = "delete file", description = "", tags={ "File" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "ok") })
+    @RequestMapping(value = "/{id}/file/{fileId}",
+        method = RequestMethod.DELETE)
+    ResponseEntity<Void> deleteFile(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id, @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("fileId") String fileId);
+
 
     @Operation(summary = "get link", description = "", tags={ "File" })
     @ApiResponses(value = { 

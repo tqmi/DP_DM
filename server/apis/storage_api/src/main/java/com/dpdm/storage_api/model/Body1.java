@@ -15,22 +15,22 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import javax.xml.bind.annotation.*;
 
 /**
- * Body
+ * Body1
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T21:51:02.069Z[GMT]")
-@JacksonXmlRootElement(localName = "Body")
-@XmlRootElement(name = "Body")
+@JacksonXmlRootElement(localName = "Body1")
+@XmlRootElement(name = "Body1")
 @XmlAccessorType(XmlAccessType.FIELD)@JsonInclude(JsonInclude.Include.NON_NULL)
 
-public class Body  implements Serializable  {
+public class Body1  implements Serializable  {
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("filename")
   @JacksonXmlProperty(localName = "filename")
   private Resource filename = null;
 
-  public Body filename(Resource filename) {
+  public Body1 filename(Resource filename) {
     this.filename = filename;
     return this;
   }
@@ -59,8 +59,8 @@ public class Body  implements Serializable  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Body body = (Body) o;
-    return Objects.equals(this.filename, body.filename);
+    Body1 body1 = (Body1) o;
+    return Objects.equals(this.filename, body1.filename);
   }
 
   @Override
@@ -71,7 +71,7 @@ public class Body  implements Serializable  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Body {\n");
+    sb.append("class Body1 {\n");
     
     sb.append("    filename: ").append(toIndentedString(filename)).append("\n");
     sb.append("}");

@@ -105,4 +105,29 @@ public class StorageFileController extends FileApiController{
 
         return ResponseEntity.ok().build();
     }
+
+    public ResponseEntity<Void> deleteFile(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id,@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("fileId") String fileId) {
+        CollectionReference fileColRef = FirebaseConfig.getFirestore().collection("users/"+ id +"/files");
+        DocumentReference fileRef = fileColRef.document(fileId);
+
+        String filename = null;
+        try {
+            filename = id +"/" +fileRef.get().get().getString("fileName");
+        } catch (InterruptedException | ExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        if(filename == null)
+            return ResponseEntity.notFound().build();
+
+        fileRef.delete();
+        FirebaseConfig.getStorage().get(BlobId.of(FirebaseConfig.getBucket().getName(), filename)).delete(null);
+
+
+        return ResponseEntity.ok().build();
+    }
+
+
+    
 }
