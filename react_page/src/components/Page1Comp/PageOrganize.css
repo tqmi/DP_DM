@@ -15,6 +15,8 @@
     font-variant: small-caps;
     align-self: auto;
     margin: auto;
+    padding-top: 5rem;
+    padding-bottom: 2rem;
   }
   
   .pagination {
@@ -49,9 +51,9 @@
   .btn-light {
     /* color: #17a2b8; */
     /* border-color: #17a2b8; */
-    padding: 3%;
+    padding: 2%;
     padding-left: 7%;
-    padding-right: 7%;
+    padding-right: 100%;
     border-radius: 0rem;
     font-family: Georgia;
     margin-right: 1rem;
@@ -72,11 +74,15 @@
   display: -webkit-flex;
   display: flex;
   
+  
+  
 }
 
 .nowrap  { 
   -webkit-flex-wrap: nowrap;
   flex-wrap: nowrap;
+  width: 937px;
+  
 }
 
 .wrap    { 
@@ -97,19 +103,67 @@
   background: deepskyblue;
 }
 
-.flex-item {
-  background: tomato;
-  padding: 5px;
-  width: 100px;
-  height: 100px;
-  margin: 10px;
+.flex-item1 {
   
-  line-height: 100px;
-  color: white;
+  padding: 30px;
+  /* width: 100px;
+  height: 100px;
+  margin: 10px; */
+  
+  /* line-height: 100px; */
+  
   font-weight: bold;
-  font-size: 2em;
+  /* font-size: 2em; */
   text-align: center;
+  padding-bottom: 2rem;
+  padding-left: 0%;
+  padding-right: 30%;
+  
+  
 }
+
+.flex-item2 {
+  
+  padding: 30px;
+  /* width: 100px;
+  height: 100px;
+  margin: 10px; */
+  
+  /* line-height: 100px; */
+  
+  font-weight: bold;
+  /* font-size: 2em; */
+  text-align: center;
+  padding-bottom: 2rem;
+  padding-left: 0%;
+  padding-right: 0%;
+  
+  
+}
+
+.container2 {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+  
+}
+
+.container{
+  width: 150rem;
+  height: 937px;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+
 
 
 
