@@ -10,12 +10,16 @@ import javax.validation.Valid;
 
 import com.dpdm.gateway_api.api.FileApiController;
 import com.dpdm.gateway_api.model.FileResponse;
+import com.dpdm.gatewayservice.models.InternalUser;
 import com.dpdm.gatewayservice.service_providers.ServiceProvider;
 import com.dpdm.gatewayservice.service_providers.UserProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,15 +58,16 @@ public class GatewayFilesController extends FileApiController{
 
     public ResponseEntity<List<FileResponse>> getMyFiles() {
         
+        InternalUser user = userProvider.getUser(request);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
-        List<FileResponse> list = new ArrayList<FileResponse>();
+        List<FileResponse> resp ;
 
-        list.add(new FileResponse().fileName("file1").fileid("1").owner("owner1").status("new"));
-        list.add(new FileResponse().fileName("file2").fileid("2").owner("owner1").status("new"));
-        list.add(new FileResponse().fileName("file3").fileid("3").owner("owner1").status("new"));
-        list.add(new FileResponse().fileName("file4").fileid("4").owner("owner1").status("new"));
+        resp = (List<FileResponse>)restTemplate.getForObject(serviceProvider.getServiceURI("storage_service") + "/" + user.getUid() + "/files", List.class);
 
-        return new ResponseEntity<List<FileResponse>>(list,HttpStatus.OK);
+        return new ResponseEntity<List<FileResponse>>(resp,HttpStatus.OK);
     }
 
     public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid) {
@@ -71,8 +76,23 @@ public class GatewayFilesController extends FileApiController{
     }
 
     public ResponseEntity<Void> uploadFile(@Parameter(description = "file detail") @Valid @RequestPart("file") MultipartFile filename) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        
+        InternalUser user = userProvider.getUser(request);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+        HttpEntity<MultipartFile> request = new HttpEntity<MultipartFile>(filename,headers);
+        
+
+        restTemplate.postForObject(serviceProvider.getServiceURI("storage_service") + "/" + user.getUid() + "/files", request,Void.class);
+
+
+        return ResponseEntity.ok().build();
+
     }
 
 }

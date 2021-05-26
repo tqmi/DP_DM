@@ -32,12 +32,6 @@
 			<artifactId>firebase-admin</artifactId>  
 			<version>6.11.0</version>  
 		</dependency> 
-
-		<dependency>
-			<groupId>com.dpdm</groupId>
-			<artifactId>storageapi</artifactId>
-			<version>1.0.0</version>
-		</dependency>
 		<dependency>
 			<groupId>com.dpdm</groupId>
 			<artifactId>storage_api</artifactId>
@@ -48,6 +42,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- <dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-storage</artifactId>
+		</dependency> -->
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -59,8 +58,18 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+    		<!-- <dependency>
+      			<groupId>com.google.cloud</groupId>
+				<artifactId>libraries-bom</artifactId>
+				<version>20.4.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency> -->
 		</dependencies>
 	</dependencyManagement>
+
+
+
 
 	<build>
 		<plugins>
