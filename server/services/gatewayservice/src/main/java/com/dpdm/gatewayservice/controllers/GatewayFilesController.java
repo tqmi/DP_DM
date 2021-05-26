@@ -59,7 +59,7 @@ public class GatewayFilesController extends FileApiController{
 
         String resp = restTemplate.getForObject(serviceProvider.getServiceURI("storage_service") + "/" + user.getUid() + "/file/" + fileid, String.class);
 
-        return new ResponseEntity<String>("down link",HttpStatus.OK);
+        return new ResponseEntity<String>(resp,HttpStatus.OK);
     }
 
     public ResponseEntity<List<FileResponse>> getMyFiles() {
