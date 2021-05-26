@@ -4,28 +4,21 @@ import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Nav from "./Nav";
 import Login from "./Authentication/Login";
-import SignUpUser from "./Authentication/SignUpUser";
 import PickUserType from "./Authentication/PickUserType";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Card } from "react-bootstrap";
 
-
-// import component 👇
 import Drawer from 'react-modern-drawer'
-
-//import styles 👇
 import 'react-modern-drawer/dist/index.css'
 
 import "../style/Layout.css";
 import {AiOutlineMenu} from "react-icons/ai";
 
 import { auth ,firebase} from '../firebase';
-
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import {useState} from 'react';
 import { useOperationMethod } from 'react-openapi-client';
-import sendReqWithToken from "./SendReqWithToken";
 
 
 function Layout(props) {
@@ -42,30 +35,36 @@ function Layout(props) {
 
     }
 
-    const getAccountData = (resp) => {
-      if(resp){
-        setAccount(resp.data);
-      }
-      else
-      {
-        setAccount(null);
-      }
+  const getAccountData = (resp) => {
+    if(resp){
+      setAccount(resp.data);
     }
-  
-    
-  
-  
-    useEffect(() => { 
-      if(user) 
-      {
-     
-        sendReqWithToken(user,getAccount,null,null,{},getAccountData);
-  
+    else
+    {
+      setAccount(null);
+    }
+  }
+
+  const sendReqWithToken = (req,params,args,options,succ) => {
+    user.getIdToken().then(
+      (token) => {
+        options = {headers:{'Authorization' : "Bearer " + token}};
+        req(params,args,options).then(
+          succ
+        )
       }
-  
-     }, 
-     [user]
     )
+  }
+
+  
+  useEffect(() => { 
+    if(user) 
+    {
+      sendReqWithToken(getAccount,null,null,{},getAccountData);
+    }
+    }, 
+    [user]
+  )
   
 
   if(user)
@@ -76,11 +75,10 @@ function Layout(props) {
     
             <Row className='header'>
             <Col  sm='0.3'><AiOutlineMenu onClick={toggleDrawer}  color="white" size={50}/></Col>
-              <Col><Nav/> </Col>
+              <Col><Nav account={account}/> </Col>
             </Row>
     
-            <Row className="h-100">
-              
+            <Row name="drawerRow" className="h-100">
               <Drawer open={isOpen} onClose={toggleDrawer} direction='left'>
                   <Sidebar history={props.history} />
               </Drawer>

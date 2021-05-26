@@ -9,7 +9,7 @@ import { useOperationMethod } from 'react-openapi-client';
 
 function Page2(props) {
   
-  const [getFiles,{ loading, data, error }] = useOperationMethod('getFiles');
+  const [getFiles,{ loading, data, error }] = useOperationMethod('getMyFiles');
 
   return <Page2Wrapped getFileApi={{'operation' : getFiles , "result" : { loading, data, error }}}/>;
 }

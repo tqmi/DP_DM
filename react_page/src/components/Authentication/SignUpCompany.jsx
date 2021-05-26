@@ -37,8 +37,9 @@ export default function SignUpCompany(props) {
                         </div>
 
                         <button type="submit" className="btn btn-dark btn-lg btn-block">Register</button>
+
+                        <button type="button" onClick = {ReturnToPick} className="btn btn-dark btn-lg btn-block">Go back to user types</button>
                     </form>
-                    <button onClick = {ReturnToPick} className="btn btn-dark btn-lg btn-block">Go back to user types</button>
 
             </div>
         </div>

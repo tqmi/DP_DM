@@ -7,7 +7,7 @@ import Page3 from "./pages/Page-3";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
-import Upload from "./components/Page2Comp/Upload";
+import UserPage from "./components/UserInfo/UserPage";
 
 function Routes() {
     return (
@@ -20,6 +20,7 @@ function Routes() {
                         <Route path="/page-1" component={Page1}/>
                         <Route path="/page-2" component={Page2}/>
                         <Route path="/page-3" component={Page3}/>
+                        <Route path="/user-info" component={UserPage}/>
                         <Route component={NotFound}/>
                     </Switch>
                 </Layout>

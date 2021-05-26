@@ -13,7 +13,8 @@
 }
 
 #EZDrawer #EZDrawer__container {
-    position: relative;
+    position: absolute;
+    margin-top:56px;
 }
 
 .Menu{

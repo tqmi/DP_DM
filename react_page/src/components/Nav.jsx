@@ -10,21 +10,17 @@ import {
 import { auth ,firebase} from '../firebase';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useEffect } from "react";
+import { useEffect ,useState} from "react";
 import { useOperationMethod } from 'react-openapi-client';
 import sendReqWithToken from "./SendReqWithToken";
+
+import { Link } from "react-router-dom";
 
 
 
 function Nav(props) {
   const [user] = useAuthState(auth);
-  const [deleteAccount,{ loading, data, error }] = useOperationMethod('deleteUser');
   
-  // useEffect(() => {
-  //   if(user){
-  //     let userToken = user.getIdToken().then((val) => getPet(null,null,{headers:{'userToken' : val}}).then((response) => console.log(response.data)));
-  //   }
-  // },[user]);
 
 
   const signInWithGoogle = () => {
@@ -33,22 +29,24 @@ function Nav(props) {
 	};
 
 
-  function deleteUser() {
-    sendReqWithToken(user,deleteAccount,null,null,{},() => auth.signOut());
-  }
 
   
-
+  
+  
+ 
   return (
     
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" >
     <Navbar.Toggle />
     <Navbar.Collapse className="justify-content-end">
       <Navbar.Text>
-        Signed in as: <a href="#login">{user ? user.displayName : "not logged in"}</a>
+        Signed in as: <a href="#login">{props.account ? props.account.name : ""}</a>
       </Navbar.Text>
       {user ?   <button onClick={() => auth.signOut()}> Sign out</button> : <button onClick={signInWithGoogle}> Sign In</button>} 
-      <button onClick={deleteUser}> Delete user</button>
+      
+      <Link to={"/user-info"}>
+            <div>User Info</div>
+     </Link>
     </Navbar.Collapse>
   </Navbar>
   );

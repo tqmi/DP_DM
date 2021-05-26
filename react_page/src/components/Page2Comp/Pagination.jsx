@@ -105,7 +105,7 @@ class Pagination extends Component {
         <nav aria-label="Countries Pagination">
           <ul className="pagination">
             { pages.map((page, index) => {
-
+              
               if (page === LEFT_PAGE) return (
                 <li key={index} className="page-item">
                   <a className="page-link" href="#" aria-label="Previous" onClick={this.handleMoveLeft}>
@@ -125,13 +125,15 @@ class Pagination extends Component {
               );
 
               return (
+                <>
                 <li key={index} className={`page-item${ currentPage === page ? ' active' : ''}`}>
                   <a className="page-link" href="#" onClick={ this.handleClick(page) }>{ page }</a>
                 </li>
+                </>
               );
 
             }) }
-
+            
           </ul>
         </nav>
       </Fragment>
