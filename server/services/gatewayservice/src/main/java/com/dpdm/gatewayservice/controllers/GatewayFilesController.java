@@ -52,6 +52,12 @@ public class GatewayFilesController extends FileApiController{
     
     public ResponseEntity<String> getDownloadLink(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("fileid") String fileid) {
        
+        InternalUser user = userProvider.getUser(request);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String resp = restTemplate.getForObject(serviceProvider.getServiceURI("storage_service") + "/" + user.getUid() + "/file/" + fileid, String.class);
 
         return new ResponseEntity<String>("down link",HttpStatus.OK);
     }
