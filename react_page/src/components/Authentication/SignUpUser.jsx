@@ -4,6 +4,7 @@ import PickUserType from "./PickUserType";
 import { auth ,firebase} from "../../firebase.js";
 import { useAuthState } from 'react-firebase-hooks/auth'; 
 import { useOperationMethod } from 'react-openapi-client';
+import sendReqWithToken from "../SendReqWithToken";
 
 export default function SignUpUser(props) {
 
@@ -36,21 +37,11 @@ export default function SignUpUser(props) {
         };
 
         
-        sendReqWithToken(createUser,null,loginInfo,{},TestReturn)
+        sendReqWithToken(user,createUser,null,loginInfo,{},TestReturn)
 
 
     }
 
-    const sendReqWithToken = (req,params,args,options,succ) => {
-        user.getIdToken().then(
-          (token) => {
-            options = {headers:{'Authorization' : "Bearer " + token}};
-            req(params,args,options).then(
-              succ
-            )
-          }
-        )
-    }
 
     
     if (goBack == 1) return <PickUserType/>;

@@ -9,6 +9,7 @@ import PickUserType from "./Authentication/PickUserType";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Card } from "react-bootstrap";
 
+
 // import component 👇
 import Drawer from 'react-modern-drawer'
 
@@ -24,6 +25,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 import {useState} from 'react';
 import { useOperationMethod } from 'react-openapi-client';
+import sendReqWithToken from "./SendReqWithToken";
 
 
 function Layout(props) {
@@ -50,31 +52,14 @@ function Layout(props) {
       }
     }
   
-    const sendReqWithToken = (req,params,args,options,succ) => {
-      user.getIdToken().then(
-        (token) => {
-          options = {headers:{'Authorization' : "Bearer " + token}};
-          req(params,args,options).then(
-            succ
-          )
-        }
-      )
-    }
+    
   
   
     useEffect(() => { 
       if(user) 
       {
-        // user.getIdToken()
-        // .then(
-        //   (token) => {
-        //       getAccount(null,null,{headers:{'Authorization' : "Bearer " + token}})
-        //       .then(
-        //         getAccountData
-        //       )
-        //   }
-        // );
-        sendReqWithToken(getAccount,null,null,{},getAccountData);
+     
+        sendReqWithToken(user,getAccount,null,null,{},getAccountData);
   
       }
   

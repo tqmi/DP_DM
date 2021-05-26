@@ -12,6 +12,7 @@ import { auth ,firebase} from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useEffect } from "react";
 import { useOperationMethod } from 'react-openapi-client';
+import sendReqWithToken from "./SendReqWithToken";
 
 
 
@@ -31,19 +32,9 @@ function Nav(props) {
 	  auth.signInWithPopup(provider);
 	};
 
-  const sendReqWithToken = (req,params,args,options,succ) => {
-    user.getIdToken().then(
-      (token) => {
-        options = {headers:{'Authorization' : "Bearer " + token}};
-        req(params,args,options).then(
-          succ
-        )
-      }
-    )
-  }
 
   function deleteUser() {
-    sendReqWithToken(deleteAccount,null,null,{},() => auth.signOut());
+    sendReqWithToken(user,deleteAccount,null,null,{},() => auth.signOut());
   }
 
   
