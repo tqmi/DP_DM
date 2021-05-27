@@ -39,6 +39,11 @@ public class FirebaseService {
             .setStorageBucket(bucketName)
             .build();
             FirebaseApp.initializeApp(options);
+
+            bucket = StorageClient.getInstance().bucket(bucketName);
+            storage = bucket.getStorage();
+            firestore = FirestoreClient.getFirestore();
+
             
             serviceAccount.close();
             
@@ -47,13 +52,13 @@ public class FirebaseService {
         }
     }
 
-    // public static GoogleCredentials getCredentials() {
-    //     return credentials;
-    // }
+    public static GoogleCredentials getCredentials() {
+        return credentials;
+    }
 
-    // public static Firestore getFirestore() {
-    //     return firestore;
-    // }
+    public static Firestore getFirestore() {
+        return firestore;
+    }
 
     public static Storage getStorage() {
         return storage;

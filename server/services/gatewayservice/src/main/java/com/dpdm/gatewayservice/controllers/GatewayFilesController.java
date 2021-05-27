@@ -1,9 +1,10 @@
 package com.dpdm.gatewayservice.controllers;
 
-
+import java.nio.ByteBuffer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -17,8 +18,11 @@ import com.dpdm.gatewayservice.service_providers.FirebaseService;
 import com.dpdm.gatewayservice.service_providers.ServiceProvider;
 import com.dpdm.gatewayservice.service_providers.UserProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.Storage.BlobGetOption;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -125,15 +129,40 @@ public class GatewayFilesController extends FileApiController{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        Blob fileBlob = FirebaseService.getBucket().get(ownerId+"/"+fileid, null); 
+        CollectionReference userColRef = FirebaseService.getFirestore().collection("users");
+        DocumentReference userdoc = userColRef.document(ownerId);
+        CollectionReference fileColRef = userdoc.collection("files");
+        DocumentReference fileRef = fileColRef.document(fileid);
 
-        byte [] filedata = fileBlob.getContent(null);
+        String filename;
+        try {
+            filename = ownerId +"/" +fileRef.get().get().getString("fileName");
+        } catch (InterruptedException | ExecutionException e1) {
+            e1.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+
+        Blob fileBlob = FirebaseService.getStorage().get(BlobId.of(FirebaseService.getBucket().getName(), filename.strip()));
+
+
+
+        
+        ByteBuffer buff = ByteBuffer.allocate(100000);
+
+        System.out.println(filename);
+        try {
+            fileBlob.reader(null).read(buff);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         MultiValueMap<String, Object> rqbody = new LinkedMultiValueMap<>();
-        rqbody.add("plainFile", filedata);
+        rqbody.add("plainFile", buff.array());
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(rqbody,headers);
         SignResponse resp = restTemplate.postForObject(serviceProvider.getServiceURI("sign_service") + "/sign", request,SignResponse.class);
 
