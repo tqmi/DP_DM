@@ -47,7 +47,7 @@ public class FileResponse  implements Serializable  {
   @JsonProperty("signedBy")
   @JacksonXmlProperty(localName = "signedBy")
   @Valid
-  private List<MyUser> signedBy = null;
+  private List<Signature> signedBy = null;
 
   public FileResponse fileName(String fileName) {
     this.fileName = fileName;
@@ -125,14 +125,14 @@ public class FileResponse  implements Serializable  {
     this.status = status;
   }
 
-  public FileResponse signedBy(List<MyUser> signedBy) {
+  public FileResponse signedBy(List<Signature> signedBy) {
     this.signedBy = signedBy;
     return this;
   }
 
-  public FileResponse addSignedByItem(MyUser signedByItem) {
+  public FileResponse addSignedByItem(Signature signedByItem) {
     if (this.signedBy == null) {
-      this.signedBy = new ArrayList<MyUser>();
+      this.signedBy = new ArrayList<Signature>();
     }
     this.signedBy.add(signedByItem);
     return this;
@@ -144,11 +144,11 @@ public class FileResponse  implements Serializable  {
    **/
   @Schema(description = "")
       @Valid
-    public List<MyUser> getSignedBy() {
+    public List<Signature> getSignedBy() {
     return signedBy;
   }
 
-  public void setSignedBy(List<MyUser> signedBy) {
+  public void setSignedBy(List<Signature> signedBy) {
     this.signedBy = signedBy;
   }
 

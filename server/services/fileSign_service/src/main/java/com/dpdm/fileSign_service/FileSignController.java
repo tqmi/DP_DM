@@ -48,12 +48,12 @@ public class FileSignController {
 
     @PostMapping("/sign")
     public ResponseEntity<SignResponse> fileSign(
-            @Valid @RequestPart(value = "plainFile", required = true) MultipartFile plainFile) {
+            @Valid @RequestPart("plainFile") byte[] plainFile) {
         String signature = null;
         KeyPair keys = null;
         try {
             keys = workerRSA.generateKeyPair();
-            signature = workerRSA.sign(plainFile.getBytes(), keys.getPrivate());
+            signature = workerRSA.sign(plainFile, keys.getPrivate());
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

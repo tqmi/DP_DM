@@ -24,6 +24,7 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Blob.BlobSourceOption;
 import com.google.cloud.storage.Storage.BlobGetOption;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,23 @@ public class StorageFileController extends FileApiController{
         List<FileResponse> files = null;
 
         try {
-            files = fileColRef.get().get().getDocuments().stream().map((qds) -> {return qds.toObject(FileResponse.class);}).collect(Collectors.toList());
+            files = fileColRef.get().get().getDocuments().stream().map((qds) -> {
+
+                CollectionReference sigref =  qds.getReference().collection("signatures");
+
+                List<Signature> siglist = new ArrayList<>();
+
+                for(DocumentReference sigdoc : sigref.listDocuments()){
+                    try {
+                        siglist.add(sigdoc.get().get().toObject(Signature.class));
+                    } catch (InterruptedException | ExecutionException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+
+                   return qds.toObject(FileResponse.class).signedBy(siglist);
+                }).collect(Collectors.toList());
         } catch (InterruptedException | ExecutionException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -120,7 +137,7 @@ public class StorageFileController extends FileApiController{
             return ResponseEntity.notFound().build();
 
         fileRef.delete();
-        FirebaseConfig.getStorage().get(BlobId.of(FirebaseConfig.getBucket().getName(), filename)).delete(null);
+        FirebaseConfig.getStorage().get(BlobId.of(FirebaseConfig.getBucket().getName(), filename)).delete(BlobSourceOption.generationMatch());
 
 
         return ResponseEntity.ok().build();

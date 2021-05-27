@@ -22,9 +22,11 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.Blob.BlobSourceOption;
 import com.google.cloud.storage.Storage.BlobGetOption;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -142,28 +144,23 @@ public class GatewayFilesController extends FileApiController{
             return ResponseEntity.badRequest().build();
         }
 
-        Blob fileBlob = FirebaseService.getStorage().get(BlobId.of(FirebaseService.getBucket().getName(), filename.strip()));
+        Blob fileBlob = FirebaseService.getStorage().get(BlobId.of(FirebaseService.getBucket().getName(),filename));
 
 
 
         
-        ByteBuffer buff = ByteBuffer.allocate(100000);
+        byte[] data = fileBlob.getContent(BlobSourceOption.generationMatch());
 
-        System.out.println(filename);
-        try {
-            fileBlob.reader(null).read(buff);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        System.out.println(data);
         
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         MultiValueMap<String, Object> rqbody = new LinkedMultiValueMap<>();
-        rqbody.add("plainFile", buff.array());
+        rqbody.add("plainFile", new ByteArrayResource(data));
+     
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(rqbody,headers);
+        System.out.println(request);
         SignResponse resp = restTemplate.postForObject(serviceProvider.getServiceURI("sign_service") + "/sign", request,SignResponse.class);
 
         headers = new HttpHeaders();
@@ -172,7 +169,7 @@ public class GatewayFilesController extends FileApiController{
 
         HttpEntity<Signature> request2 = new HttpEntity<Signature>(body.publicKey(resp.getPublicKey()).signature(resp.getSignature()).by(user.getUser()),headers);
 
-        restTemplate.put(serviceProvider.getServiceURI("storage_service") + "", request2);
+        restTemplate.put(serviceProvider.getServiceURI("storage_service") + "/files/{fileid}/sign", request2,fileid);
 
         return ResponseEntity.ok().build();
     }

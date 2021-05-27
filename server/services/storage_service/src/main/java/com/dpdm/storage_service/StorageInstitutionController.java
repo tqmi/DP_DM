@@ -24,6 +24,7 @@ import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Blob.BlobSourceOption;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -132,7 +133,7 @@ public class StorageInstitutionController extends InstitutionApiController{
             return ResponseEntity.notFound().build();
 
         fileRef.delete();
-        FirebaseConfig.getStorage().get(BlobId.of(FirebaseConfig.getBucket().getName(), filename)).delete(null);
+        FirebaseConfig.getStorage().get(BlobId.of(FirebaseConfig.getBucket().getName(), filename)).delete(BlobSourceOption.generationMatch());
 
 
         return ResponseEntity.ok().build();
