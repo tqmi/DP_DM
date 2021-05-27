@@ -17,7 +17,8 @@ function Page2(props) {
   const [getFiles,{ loading, data, error }] = useOperationMethod('getMyFiles');
   const [filesData,setFilesData] = useState([]);
   const [totalData,setTotalData] = useState(0);
-  
+  const [signatures,setSignatures] = useState([]);
+
   const [institutionList, setinstitutionList] = useState(null);
   const [getInstitutions, { loading3, info3, error3 }] = useOperationMethod("getInstitutions");
 
@@ -45,6 +46,8 @@ function Page2(props) {
       console.log(resp.data);
       setFilesData(resp.data);
       setTotalData(resp.data.length);
+
+
     }
     else
     {
@@ -93,7 +96,7 @@ function Page2(props) {
                 <Pagination totalRecords={totalData} pageLimit={3} pageNeighbours={1} onPageChanged={onPageChanged} />
               </div> */}
             </div>
-            { filesData.map(file => <FileCard account={account} institutionList={institutionList} file={file} refreshPage={reloadPage}/>) }
+            { filesData.map(file => <FileCard account={account} institutionList={institutionList} file={file} refreshPage={reloadPage} signatures={file.signedBy.map((sign) => {return <li>{sign.by.name}</li>})}/>) }
           </div>
           </Col>
 

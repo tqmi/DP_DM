@@ -9,7 +9,7 @@ import sendReqWithToken from "../SendReqWithToken";
 
 const FileCard = props => {
   const {
-    download_link = null, fileid = null, fileName = null, owner = null, status=null,
+    download_link = null, fileid = null, fileName = null, owner = null, status=null,signedBy=[]
   } = props.file || {};
 
   const [user] = useAuthState(auth);
@@ -112,13 +112,7 @@ const FileCard = props => {
               { sigList > 0 &&
                   <div class="dropdownSignature">
                     <ul>
-                      <li>name: {signed.by.name}</li>
-                      <li>email: {signed.by.email}</li>
-                      <li>address: {signed.by.address}</li>
-                      <li>phone: {signed.by.phone}</li>
-                      <li>user type: {signed.by.type}</li>
-                      <li>institution: {signed.by.institutionlink}</li>
-                      <li>cnp: {signed.by.cnp}</li>
+                      {props.signatures}
                     </ul>
                   </div>
               }
