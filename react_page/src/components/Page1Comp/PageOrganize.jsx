@@ -11,6 +11,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 import { useHistory } from "react-router-dom";
 
+import CompanyTemplates from "./CompanyTemplates";
+
 
 const PER_PAGE = 4;
 
@@ -25,6 +27,7 @@ export default function PageOrganize() {
 
     
   const [user] = useAuthState(auth);
+  const [templatePage, setTemplatePage] = useState('');
 
   useEffect(() => {
     sendReqWithToken(
@@ -45,13 +48,22 @@ export default function PageOrganize() {
     setCurrentPage(selectedPage);
   }
 
+  function handleCompanyClick(id) {
+    setTemplatePage(id);
+  }
+
+  function returnToCompanyList()
+  {
+    setTemplatePage('');
+  }
+
   const offset = currentPage * PER_PAGE;
   const displayNumber = 0;
 
   const currentPageData = (
     <ul class="flex-container wrap">
-      {data.slice(offset, offset + PER_PAGE).map(({ name }) => (
-        <button type="button" class="btn btn-light" >
+      {data.slice(offset, offset + PER_PAGE).map(({ name,id }) => (
+        <button onClick={() => handleCompanyClick(id) } type="button" class="btn btn-light" >
           {name}
           
         </button>
@@ -61,6 +73,9 @@ export default function PageOrganize() {
 
   const pageCount = Math.ceil(data.length / PER_PAGE);
 
+  if(templatePage != '')
+        return(<CompanyTemplates id={templatePage} return={returnToCompanyList}/>);
+  else
   return (
     <div className="PageOrganize">
       <h1>Institutions</h1>
@@ -77,14 +92,6 @@ export default function PageOrganize() {
               nextLinkClassName={"pagination__link"}
               disabledClassName={"pagination__link--disabled"}
               activeClassName={"pagination__link--active"}
-            />
-          </li>
-          <li class="flex-item2">
-            <SearchField
-              placeholder="Search..."
-              //onChange={onChange}
-              //searchText="Search"
-              classNames="test-class"
             />
           </li>
         </ul>

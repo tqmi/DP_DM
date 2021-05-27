@@ -20,7 +20,7 @@ const styles = {
 function Upload(props)  {
 
   const [user]=useAuthState(auth);
-  const [putFile,{ loading, data, error }] = useOperationMethod('uploadFile');
+  const [putFile,{ loading, data, error }] = useOperationMethod('uploadInstitutionTemplate');
   const [files,setFiles] = useState([]);
 
 
@@ -42,7 +42,7 @@ function Upload(props)  {
     formData.append("file",files[0]);
     console.log(files[0]);
     console.log(formData.getAll("file"));
-    sendReqWithToken(user,putFile,null,formData,{},onFileUpload);
+    sendReqWithToken(user,putFile,props.link,formData,{},onFileUpload);
 
     //window.location.reload();
   }

@@ -11,7 +11,6 @@ export default function SignUpUser(props) {
     const [user] = useAuthState(auth);
     const [createUser,{ loading, data, error }] = useOperationMethod('createUser');
     const [getInstitutions,{ loading2, data2, error2 }] = useOperationMethod('getInstitutions');
-
     const [institutionList, setInstitutionList] = useState(null);
 
     const [goBack, setGoBack] = useState(0);
@@ -78,28 +77,28 @@ export default function SignUpUser(props) {
 
                         <div className="form-group">
                             <label>First name</label>
-                            <input type="text" name="firstName"  className="form-control" placeholder="First name" />
+                            <input type="text" name="firstName"  className="form-control" placeholder="First name" required/>
                         </div>
                         
 
                         <div className="form-group">
                             <label>Last name</label>
-                            <input type="text" name="lastName" className="form-control" placeholder="Last name" />
+                            <input type="text" name="lastName" className="form-control" placeholder="Last name" required/>
                         </div>
 
                         <div className="form-group">
                             <label>Email</label>
-                            <input type="text" name="email"  className="form-control" placeholder="Email" />
+                            <input type="email" name="email"  className="form-control" placeholder="Email" required/>
                         </div>
 
                         <div className="form-group">
                             <label>Address</label>
-                            <input type="text" name="address"  className="form-control" placeholder="Address" />
+                            <input type="text" name="address"  className="form-control" placeholder="Address" required/>
                         </div>
 
                         <div className="form-group">
                             <label>Phone number</label>
-                            <input type="text" name="phone" className="form-control" placeholder="Phone number" />
+                            <input type="text" name="phone" className="form-control" placeholder="Phone number" required/>
                         </div>
 
                         <div className="form-group">
@@ -112,7 +111,7 @@ export default function SignUpUser(props) {
 
                         <div className="form-group">
                             <label>Cnp</label>
-                            <input type="cnp" name="cnp" className="form-control" placeholder="Cnp" />
+                            <input type="cnp" name="cnp" className="form-control" placeholder="Cnp" required/>
                         </div>
 
                         <button type="submit"  className="btn btn-dark btn-lg btn-block">Register</button>

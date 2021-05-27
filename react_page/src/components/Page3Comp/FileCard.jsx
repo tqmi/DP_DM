@@ -15,28 +15,19 @@ const FileCard = props => {
   const [user] = useAuthState(auth);
 
   const [sigList, setSigList] = useState(0);
-  let signedEx =
+  let signedBy =
   {
-    "by": {
-      "name": "string",
-      "email": "string",
-      "address": "string",
-      "phone": "string",
-      "accesslevel": "string",
-      "type": "string",
-      "institutionlink": "string",
-      "cnp": "string"
-    },
-    "publicKey": "string"
+    "name": "string",
+    "email": "string",
+    "address": "string",
+    "phone": "string",
+    "accesslevel": "string",
+    "type": "string",
+    "institutionlink": "string",
+    "cnp": "string"
   };
-  const[signed,setSigned]=useState(signedEx);
-
- 
   
-  const [showInstitutions, setShowInstitutions] = useState(0);
-
-  
-  const [deleteFile,{ loading2, data2, error2 }] = useOperationMethod('deleteFile');
+  const [deleteFile,{ loading2, data2, error2 }] = useOperationMethod('deleteTemplate');
   const deleteSuccess = (resp) => {
     
     props.refreshPage();
@@ -45,7 +36,7 @@ const FileCard = props => {
   }
 
 
-  const [getFileDownloadLink,{ loading, data, error }] = useOperationMethod('getDownloadLink');
+  const [getFileDownloadLink,{ loading, data, error }] = useOperationMethod('getTemplateDownloadLink');
   const useDownloadLink = (resp) => {
     if(resp){
       window.open(resp.data, "_blank")
@@ -56,7 +47,7 @@ const FileCard = props => {
 
   function getLink()
   {
-    sendReqWithToken(user,getFileDownloadLink,fileid,null,{},useDownloadLink);
+    sendReqWithToken(user,getFileDownloadLink,{"fileid" : fileid, "id" : props.linkID},null,{},useDownloadLink);
   }
 
   function signatureButtonClick()
@@ -66,35 +57,10 @@ const FileCard = props => {
     else setSigList(1);
   }
 
-  function showComp()
-  {
-    if(showInstitutions)
-      setShowInstitutions(0);
-    else setShowInstitutions(1);
-  }
-
  function deleteFileClick()
  {
-  sendReqWithToken(user,deleteFile,fileid,null,{},deleteSuccess);
+  sendReqWithToken(user,deleteFile,{"fileid" : fileid, "id" : props.linkID},null,{},deleteSuccess);
  }
-
-
-
-
-
-
- const [sendSigRequest, { loading4, info4, error4 }] = useOperationMethod("sendRequest");
- function sendRequest(id)
- {
-  sendReqWithToken(user,sendSigRequest,id,
-    { "id": '',
-      "by": props.account,
-      "owner": user.uid,
-      "fileid": fileid
-    }
-  ,{},()=>console.log("Success"));
- }
-
 
   return (
     <div className="col-sm-6 col-md-12 country-card">
@@ -108,27 +74,17 @@ const FileCard = props => {
             { owner }  
           </span>
           <span className="signatureButton">
-              <button class="sigButton" onClick={signatureButtonClick} >  Signed By </button>
+              <button class="sigButton" onClick={signatureButtonClick} >  Signature </button>
               { sigList > 0 &&
                   <div class="dropdownSignature">
                     <ul>
-                      <li>name: {signed.by.name}</li>
-                      <li>email: {signed.by.email}</li>
-                      <li>address: {signed.by.address}</li>
-                      <li>phone: {signed.by.phone}</li>
-                      <li>user type: {signed.by.type}</li>
-                      <li>institution: {signed.by.institutionlink}</li>
-                      <li>cnp: {signed.by.cnp}</li>
-                    </ul>
-                  </div>
-              }
-              <button class="reqSigButton" onClick={showComp} >  Request Signature </button>
-              { showInstitutions > 0 &&
-                  <div class="dropdownSignature">
-                    <ul>
-                      {
-                      props.institutionList.map(instit => <li onClick={() => sendRequest(instit.id)}>{instit.name}</li>)
-                      }
+                      <li>name: {signedBy.name}</li>
+                      <li>email: {signedBy.email}</li>
+                      <li>address: {signedBy.address}</li>
+                      <li>phone: {signedBy.phone}</li>
+                      <li>user type: {signedBy.type}</li>
+                      <li>institution: {signedBy.institutionlink}</li>
+                      <li>cnp: {signedBy.cnp}</li>
                     </ul>
                   </div>
               }

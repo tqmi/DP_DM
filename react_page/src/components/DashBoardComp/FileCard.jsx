@@ -9,7 +9,7 @@ import sendReqWithToken from "../SendReqWithToken";
 
 const FileCard = props => {
   const {
-    download_link = null, fileid = null, fileName = null, owner = null, status=null,
+    download_link = null,by = {}, fileid = null,  owner = null, status=null,
   } = props.file || {};
 
   const [user] = useAuthState(auth);
@@ -100,10 +100,10 @@ const FileCard = props => {
     <div className="col-sm-6 col-md-12 country-card">
       <div className="country-card-container border-gray rounded border mx-2 my-3 d-flex flex-row align-items-center p-0 bg-light">
         <div >
-          <button><img src={process.env.PUBLIC_URL + "./download_button.png"} alt="my image" onClick={getLink} /></button>
+          <button><img src={process.env.PUBLIC_URL + "./sign_button.png"} alt="my image" onClick={signatureButtonClick} /></button>
         </div>
         <div className="px-3">
-          <span className="country-name text-dark d-block font-weight-bold">{ fileName }({status}) - id:{fileid}</span>
+          <span className="country-name text-dark d-block font-weight-bold">{ by.name }({by.cnp}) - email:{by.email}</span>
           <span className="country-region text-secondary d-block text-uppercase">
             { owner }  
           </span>
@@ -122,16 +122,7 @@ const FileCard = props => {
                     </ul>
                   </div>
               }
-              <button class="reqSigButton" onClick={showComp} >  Request Signature </button>
-              { showInstitutions > 0 &&
-                  <div class="dropdownSignature">
-                    <ul>
-                      {
-                      props.institutionList.map(instit => <li onClick={() => sendRequest(instit.id)}>{instit.name}</li>)
-                      }
-                    </ul>
-                  </div>
-              }
+              <button class="reqSigButton" onClick={getLink} >  Download </button>
               <button class="delButton" onClick={deleteFileClick} >  Delete </button>
           </span>
         </div>

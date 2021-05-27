@@ -43,7 +43,6 @@ function Nav(props) {
         Signed in as: <a href="#login">{props.account ? props.account.name : ""}</a>
       </Navbar.Text>
       {user ?   <button onClick={() => auth.signOut()}> Sign out</button> : <button onClick={signInWithGoogle}> Sign In</button>} 
-      
       <Link to={"/user-info"}>
             <div>User Info</div>
      </Link>

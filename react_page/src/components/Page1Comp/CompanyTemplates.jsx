@@ -1,42 +1,21 @@
 import React, { Component, useState, useEffect } from 'react';
-import '../style/Page2.css';
-import Pagination from '../components/Page2Comp/Pagination';
-import FileCard from '../components/Page2Comp/FileCard';
-import Upload from '../components/Page2Comp/Upload';
+import '../../style/Page2.css';
+import FileCard from './FileCard';
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { useOperationMethod } from 'react-openapi-client';
 
-import { auth ,firebase} from '../firebase';
+import { auth ,firebase} from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-import sendReqWithToken from "../components/SendReqWithToken";
+import sendReqWithToken from "../../components/SendReqWithToken";
 
-function Page2(props) {
+function CompanyTemplates(props) {
 
   const [user] = useAuthState(auth);
-  const [getFiles,{ loading, data, error }] = useOperationMethod('getMyFiles');
+  const [getInstitutionsTemplates,{ loading, data, error }] = useOperationMethod('getInstitutionTemplates');
   const [filesData,setFilesData] = useState([]);
   const [totalData,setTotalData] = useState(0);
   
-  const [institutionList, setinstitutionList] = useState(null);
-  const [getInstitutions, { loading3, info3, error3 }] = useOperationMethod("getInstitutions");
-
-  const [account, setAccount] = useState(null);
-  const [getAccount,{ loading2, data2, error2 }] = useOperationMethod('getUserInfo');
-
-  const getAccountData = (resp) => {
-    if(resp){
-      setAccount(resp.data);
-    }
-    else
-    {
-      setAccount(null);
-    }
-  }
-
-  function getInstitutionStatus(resp) {
-    setinstitutionList(resp.data);
-  }
 
 
   const getFileSuccess = resp => {
@@ -51,15 +30,10 @@ function Page2(props) {
     }
   } 
 
-  const reloadPage = () =>
-  {
-    sendReqWithToken(user,getFiles,null,null,{},getFileSuccess);
-  }
-
+ 
   useEffect(() => { 
-    sendReqWithToken(user,getFiles,null,null,{},getFileSuccess);
-    sendReqWithToken(user,getInstitutions,null, null,{}, getInstitutionStatus);
-    sendReqWithToken(user,getAccount,null,null,{},getAccountData);
+    sendReqWithToken(user,getInstitutionsTemplates,props.id,null,{},getFileSuccess);
+    
    }, 
    []
   )
@@ -76,6 +50,7 @@ function Page2(props) {
 
         <Row>
           <Col sm='10'>
+          <button className="returnButton" onClick={props.return} >  Return </button>
           <div className="row d-flex flex-row py-5">
             <div className="w-100 px-4 py-5 d-flex flex-row flex-wrap align-items-center justify-content-between">
               <div className="d-flex flex-row align-items-center">
@@ -92,13 +67,10 @@ function Page2(props) {
                 <Pagination totalRecords={totalData} pageLimit={3} pageNeighbours={1} onPageChanged={onPageChanged} />
               </div> */}
             </div>
-            { filesData.map(file => <FileCard account={account} institutionList={institutionList} file={file} refreshPage={reloadPage}/>) }
+            { filesData.map(file => <FileCard linkID={props.id } file={file} />) }
           </div>
           </Col>
 
-          <Col> 
-            <Row><Upload uploadSuccess={reloadPage}/></Row>
-          </Col>
         </Row>
 
       </Container>
@@ -110,4 +82,4 @@ function Page2(props) {
 
 }
 
-export default Page2;
+export default CompanyTemplates;

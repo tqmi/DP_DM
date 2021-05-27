@@ -46,8 +46,8 @@ function UserPage(props) {
             "phone": event.target.phone.value,
             "accesslevel": "string",
             "type": "User",
-            "institutionlink": account ? account.name : '',
-            "cnp": account ? account.name : ''
+            "institutionlink": event.target.institutionlink.value,
+            "cnp": event.target.cnp.value
         };
 
         sendReqWithToken(user,updateAccount,null,newUserInfo,{},getAccountData);
@@ -61,7 +61,8 @@ function UserPage(props) {
       }
 
 
-
+    if(account){
+    if(account.institutionlink == "NAF")
         return (
             <Container>
             <Row>
@@ -78,15 +79,26 @@ function UserPage(props) {
                         <Form.Control  name="email" type="email" defaultValue={account ? account.email : ''} />
                     </Form.Group>
 
-                    <Form.Group controlId="formCategory1">
+                    <Form.Group controlId="formCategory3">
                         <Form.Label>Address</Form.Label>
                         <Form.Control  name="address" type="text" defaultValue={account ? account.address : ''}/>
                     </Form.Group>
 
-                    <Form.Group controlId="formCategory1">
+                    <Form.Group controlId="formCategory4">
                         <Form.Label>Phone</Form.Label>
                         <Form.Control  name="phone" type="text" defaultValue={account ? account.phone : ''}/>
                     </Form.Group>
+
+                    <Form.Group controlId="formCategory5">
+                        <Form.Label>CNP</Form.Label>
+                        <Form.Control  name="cnp" type="text" defaultValue={account ? account.cnp : ''} disabled/>
+                    </Form.Group>
+                    
+                    <Form.Group controlId="formCategory6">
+                        <Form.Label>Institution</Form.Label>
+                        <Form.Control  name="institutionlink" type="text" defaultValue={account ? account.institutionlink : ''}/>
+                    </Form.Group>
+                    
                     
                     
                     <Row>
@@ -102,6 +114,62 @@ function UserPage(props) {
         </Row>
         </Container>
     )
+    else
+            return(
+                <Container>
+                <Row>
+                <Col>
+                    <h1>User Profile</h1>
+                    <Form className="form" onSubmit = {UpdateProfileHandler}>
+                        <Form.Group controlId="formCategory1">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control   name="name" type="text" defaultValue={account ? account.name : ''} />
+                        </Form.Group>
+                        
+                        <Form.Group controlId="formCategory2">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control  name="email" type="email" defaultValue={account ? account.email : ''} />
+                        </Form.Group>
+
+                        <Form.Group controlId="formCategory3">
+                            <Form.Label>Address</Form.Label>
+                            <Form.Control  name="address" type="text" defaultValue={account ? account.address : ''}/>
+                        </Form.Group>
+
+                        <Form.Group controlId="formCategory4">
+                            <Form.Label>Phone</Form.Label>
+                            <Form.Control  name="phone" type="text" defaultValue={account ? account.phone : ''}/>
+                        </Form.Group>
+
+                        <Form.Group controlId="formCategory5">
+                            <Form.Label>CNP</Form.Label>
+                            <Form.Control  name="cnp" type="text" defaultValue={account ? account.cnp : ''} disabled/>
+                         </Form.Group>
+                    
+                        <Form.Group controlId="formCategory6">
+                            <Form.Label>Institution</Form.Label>
+                            <Form.Control  name="institutionlink" type="text" defaultValue={account ? account.institutionlink : ''}/>
+                        </Form.Group>
+                        
+                        
+                        
+                        <Row>
+                            <Button type="submit" variant="primary">Update Profile</Button>
+                            
+                            <Col md={{ offset: 1 }}> 
+                                <Button variant="danger" onClick={deleteAccountOnClick}>Delete Profile</Button> 
+                            </Col>
+                        </Row>
+                    </Form>
+                </Col>
+
+                </Row>
+                </Container>
+            );
+    }
+    else{
+        return <div>Loading...</div>
+    }
 
 
 }

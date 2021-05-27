@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import Routes from "../routes";
-import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Nav from "./Nav";
 import Login from "./Authentication/Login";
@@ -16,9 +14,12 @@ import {AiOutlineMenu} from "react-icons/ai";
 
 import { auth ,firebase} from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import sendReqWithToken from "./SendReqWithToken";
 
 import {useState} from 'react';
 import { useOperationMethod } from 'react-openapi-client';
+
+
 
 
 function Layout(props) {
@@ -45,22 +46,11 @@ function Layout(props) {
     }
   }
 
-  const sendReqWithToken = (req,params,args,options,succ) => {
-    user.getIdToken().then(
-      (token) => {
-        options = {headers:{'Authorization' : "Bearer " + token}};
-        req(params,args,options).then(
-          succ
-        )
-      }
-    )
-  }
-
   
   useEffect(() => { 
     if(user) 
     {
-      sendReqWithToken(getAccount,null,null,{},getAccountData);
+      sendReqWithToken(user,getAccount,null,null,{},getAccountData);
     }
     }, 
     [user]
@@ -69,7 +59,9 @@ function Layout(props) {
 
   if(user)
   {
+    //normal user
     if(account){
+    if(account.institutionlink == "NAF"){
       return (
         <Container fluid className="vh-100 d-flex flex-column ">
     
@@ -88,6 +80,30 @@ function Layout(props) {
           </Container>
       );
     }
+    //affiliated user
+    else 
+    {
+      return(
+        <Container fluid className="vh-100 d-flex flex-column ">
+    
+        <Row className='header'>
+        <Col  sm='0.3'><AiOutlineMenu onClick={toggleDrawer}  color="white" size={50}/></Col>
+          <Col><Nav account={account}/> </Col>
+        </Row>
+
+        <Row name="drawerRow" className="h-100">
+              <Drawer open={isOpen} onClose={toggleDrawer} direction='left'>
+                  <Sidebar history={props.history} />
+              </Drawer>
+              <Col> {props.children} </Col>
+        </Row>
+      
+      </Container>
+        
+      );
+    }
+  }
+    //not registered
     else
     {
       return (
