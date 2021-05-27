@@ -96,7 +96,7 @@ function UserPage(props) {
                     
                     <Form.Group controlId="formCategory6">
                         <Form.Label>Institution</Form.Label>
-                        <Form.Control  name="institutionlink" type="text" defaultValue={account ? account.institutionlink : ''}/>
+                        <Form.Control  name="institutionlink" type="text" defaultValue={account ? account.institutionlink : ''} disabled/>
                     </Form.Group>
                     
                     
