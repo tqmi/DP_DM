@@ -42,6 +42,7 @@ function Page2(props) {
   const getFileSuccess = resp => {
     if(resp)
     {
+      console.log(resp.data);
       setFilesData(resp.data);
       setTotalData(resp.data.length);
     }

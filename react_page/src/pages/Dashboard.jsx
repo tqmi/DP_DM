@@ -34,6 +34,7 @@ function Dashboard(props) {
   const getFileSuccess = resp => {
     if(resp)
     {
+    console.log(resp.data);
       setFilesData(resp.data);
       setTotalData(resp.data.length);
     }
@@ -45,7 +46,7 @@ function Dashboard(props) {
 
   const reloadPage = () =>
   {
-    sendReqWithToken(user,getRequests,null,null,{},getFileSuccess);
+    sendReqWithToken(user,getRequests,account.institutionlink,null,{},getFileSuccess);
   }
 
   useEffect(() => { 
@@ -61,6 +62,10 @@ function Dashboard(props) {
   if(filesData == null) return null;
   const headerClass = ['text-dark py-2 pr-4 m-0', currentPage ? 'border-gray border-right' : ''].join(' ').trim();
 
+  if(account && account.institutionlink == "NAF")
+  {
+      return (<h1>You must be linked to a company to access this page.</h1>);
+  }
   return (
     <div className="container mb-5">
       <Container fluid className="vh-100 d-flex flex-column ">

@@ -9,7 +9,7 @@ import sendReqWithToken from "../SendReqWithToken";
 
 const FileCard = props => {
   const {
-    download_link = null,by = {}, fileid = null,  owner = null, status=null,
+    accID = null,id=null,by = {}, fileid = null,  owner = null, status=null,
   } = props.file || {};
 
   const [user] = useAuthState(auth);
@@ -36,11 +36,11 @@ const FileCard = props => {
   const [showInstitutions, setShowInstitutions] = useState(0);
 
   
-  const [deleteFile,{ loading2, data2, error2 }] = useOperationMethod('deleteFile');
+  const [deleteFile,{ loading2, data2, error2 }] = useOperationMethod('deleteRequest');
+
   const deleteSuccess = (resp) => {
     
     props.refreshPage();
-    
 
   }
 
@@ -75,7 +75,7 @@ const FileCard = props => {
 
  function deleteFileClick()
  {
-  sendReqWithToken(user,deleteFile,fileid,null,{},deleteSuccess);
+  sendReqWithToken(user,deleteFile,{"id" : props.account.institutionlink, "reqid" : id},null,{},deleteSuccess);
  }
 
 
@@ -83,16 +83,19 @@ const FileCard = props => {
 
 
 
- const [sendSigRequest, { loading4, info4, error4 }] = useOperationMethod("sendRequest");
- function sendRequest(id)
+ const [signFile, { loading4, info4, error4 }] = useOperationMethod("signFile");
+ function signatureButtonClick()
  {
-  sendReqWithToken(user,sendSigRequest,id,
-    { "id": '',
+  sendReqWithToken(user,
+    signFile,
+    {"fileid" : fileid, "ownerId": user.uid},
+    {
       "by": props.account,
-      "owner": user.uid,
-      "fileid": fileid
-    }
-  ,{},()=>console.log("Success"));
+      "publicKey": "",
+      "signature": ""
+    },
+    {},
+    ()=>console.log("Success"));
  }
 
 
@@ -108,20 +111,6 @@ const FileCard = props => {
             { owner }  
           </span>
           <span className="signatureButton">
-              <button class="sigButton" onClick={signatureButtonClick} >  Signed By </button>
-              { sigList > 0 &&
-                  <div class="dropdownSignature">
-                    <ul>
-                      <li>name: {signed.by.name}</li>
-                      <li>email: {signed.by.email}</li>
-                      <li>address: {signed.by.address}</li>
-                      <li>phone: {signed.by.phone}</li>
-                      <li>user type: {signed.by.type}</li>
-                      <li>institution: {signed.by.institutionlink}</li>
-                      <li>cnp: {signed.by.cnp}</li>
-                    </ul>
-                  </div>
-              }
               <button class="reqSigButton" onClick={getLink} >  Download </button>
               <button class="delButton" onClick={deleteFileClick} >  Delete </button>
           </span>
@@ -131,12 +120,6 @@ const FileCard = props => {
   )
 }
 
-FileCard.propTypes = {
-  file: PropTypes.shape({
-    download_link: PropTypes.string.isRequired,
-    fileName: PropTypes.string.isRequired,
-    owner: PropTypes.string.isRequired,
-  }).isRequired
-};
+
 
 export default FileCard;
