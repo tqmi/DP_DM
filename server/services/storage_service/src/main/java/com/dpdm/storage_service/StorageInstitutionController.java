@@ -257,10 +257,13 @@ public class StorageInstitutionController extends InstitutionApiController{
             e.printStackTrace();
         }
 
-        if(filename == null)
-            return ResponseEntity.notFound().build();
-
-        fileRef.delete();
+        try {
+            if(filename == null || fileRef.delete().get() != null)
+                return ResponseEntity.notFound().build();
+        } catch (InterruptedException | ExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
 
         return ResponseEntity.ok().build();

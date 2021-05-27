@@ -119,7 +119,7 @@ public class GatewayFilesController extends FileApiController{
     }
 
 
-    public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId,@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid,@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Signature body) {
+    public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid,@Parameter(in = ParameterIn.PATH, description = "the files owner id", required=true, schema=@Schema()) @PathVariable("ownerId") String ownerId,@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Signature body) {
         InternalUser user = userProvider.getUser(request);
         if(user == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

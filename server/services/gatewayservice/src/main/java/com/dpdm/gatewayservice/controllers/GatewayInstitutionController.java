@@ -189,7 +189,7 @@ public class GatewayInstitutionController extends InstitutionApiController{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        restTemplate.delete(serviceProvider.getServiceURI("storage_service") + "/institution/{id}/requests", List.class,id);
+        restTemplate.delete(serviceProvider.getServiceURI("storage_service") + "/institution/{id}/requests/{reqid}",id,reqid);
 
         return ResponseEntity.ok().build();
     }

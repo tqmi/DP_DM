@@ -34,7 +34,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-27T01:37:43.340Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-27T04:03:43.031Z[GMT]")
 @Validated
 public interface FileApi {
 
@@ -71,10 +71,10 @@ public interface FileApi {
         @SecurityRequirement(name = "bearerAuth")    }, tags={ "File" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK") })
-    @RequestMapping(value = "/files/{fileid}/sign",
+    @RequestMapping(value = "/files/{fileid}/sign/{ownerId}",
         consumes = { "application/json" }, 
         method = RequestMethod.PUT)
-    ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId, @Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Signature body);
+    ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid, @Parameter(in = ParameterIn.PATH, description = "the files owner id", required=true, schema=@Schema()) @PathVariable("ownerId") String ownerId, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Signature body);
 
 
     @Operation(summary = "Uploads the file to the stoarge bucket", description = "operationId: uploadFile", security = {
