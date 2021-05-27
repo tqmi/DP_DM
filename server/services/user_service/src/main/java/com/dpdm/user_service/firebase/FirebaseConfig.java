@@ -25,7 +25,7 @@ public class FirebaseConfig {
     private static Storage storage;
     private static Bucket bucket;
     private static Firestore firestore;
-    private static String bucketName = "dp-dm-58734.appspot.com";
+    private static String bucketName = "dp-dm-f9041.appspot.com";
 
     @PostConstruct
     public static void initialize(){

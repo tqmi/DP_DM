@@ -100,7 +100,7 @@ public class GatewayInstitutionController extends InstitutionApiController{
         body.add("file", filename.getResource());
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body,headers);
 
-        restTemplate.postForObject(serviceProvider.getServiceURI("storage_service") + "/institution/{id}/templates", request,Void.class,user.getUid());
+        restTemplate.postForObject(serviceProvider.getServiceURI("storage_service") + "/institution/{id}/templates", request,Void.class,id);
 
 
         return ResponseEntity.ok().build();
@@ -125,7 +125,7 @@ public class GatewayInstitutionController extends InstitutionApiController{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        restTemplate.delete(serviceProvider.getServiceURI("storage_service") + "institution/{id}/templates/{fileId}",user.getUid(),id,fileid);
+        restTemplate.delete(serviceProvider.getServiceURI("storage_service") + "institution/{id}/templates/{fileId}",id,fileid);
 
         return ResponseEntity.ok().build();
     }
