@@ -149,23 +149,49 @@ public class GatewayInstitutionController extends InstitutionApiController{
     }
 
     public ResponseEntity<Void> sendRequest(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id,@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody SignRequest body) {
+        
+        InternalUser user = userProvider.getUser(request);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         
         HttpEntity<SignRequest> request = new HttpEntity<SignRequest>(body,headers);
         
 
-        restTemplate.postForObject(serviceProvider.getServiceURI("storage_service") + "/institutions/{id}/requests", request,Void.class,id);
+        restTemplate.postForObject(serviceProvider.getServiceURI("storage_service") + "/institution/{id}/requests", request,Void.class,id);
 
         return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<List<SignRequest>> getRequests(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id) {
+        
+        InternalUser user = userProvider.getUser(request);
+        if(user == null || !user.getUser().getInstitutionlink().equals(id)){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        
         List<SignRequest> resp = null;
 
-        resp = (List<SignRequest>)restTemplate.getForObject(serviceProvider.getServiceURI("storage_service") + "/institutions/{id}/requests", List.class,id);
+        resp = (List<SignRequest>)restTemplate.getForObject(serviceProvider.getServiceURI("storage_service") + "/institution/{id}/requests", List.class,id);
 
         return ResponseEntity.ok().body(resp);
+    }
+
+    public ResponseEntity<Void> deleteRequest(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id,@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("reqid") String reqid) {
+        
+        InternalUser user = userProvider.getUser(request);
+        if(user == null || !user.getUser().getInstitutionlink().equals(id)){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        restTemplate.delete(serviceProvider.getServiceURI("storage_service") + "/institution/{id}/requests", List.class,id);
+
+        return ResponseEntity.ok().build();
     }
 
 }

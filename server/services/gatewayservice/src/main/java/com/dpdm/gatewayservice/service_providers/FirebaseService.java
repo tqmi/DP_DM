@@ -55,16 +55,16 @@ public class FirebaseService {
     //     return firestore;
     // }
 
-    // public static Storage getStorage() {
-    //     return storage;
-    // }
+    public static Storage getStorage() {
+        return storage;
+    }
 
-    // public static Bucket getBucket() {
-    //     return bucket;
-    // }
+    public static Bucket getBucket() {
+        return bucket;
+    }
 
-    // public static String getBucketName() {
-    //     return bucketName;
-    // }
+    public static String getBucketName() {
+        return bucketName;
+    }
 
 }

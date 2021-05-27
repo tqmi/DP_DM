@@ -12,9 +12,13 @@ import com.dpdm.gateway_api.api.FileApiController;
 import com.dpdm.gateway_api.model.FileResponse;
 import com.dpdm.gateway_api.model.Signature;
 import com.dpdm.gatewayservice.models.InternalUser;
+import com.dpdm.gatewayservice.models.SignResponse;
+import com.dpdm.gatewayservice.service_providers.FirebaseService;
 import com.dpdm.gatewayservice.service_providers.ServiceProvider;
 import com.dpdm.gatewayservice.service_providers.UserProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -121,7 +125,25 @@ public class GatewayFilesController extends FileApiController{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
+        Blob fileBlob = FirebaseService.getBucket().get(ownerId+"/"+fileid, null); 
+
+        byte [] filedata = fileBlob.getContent(null);
         
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        MultiValueMap<String, Object> rqbody = new LinkedMultiValueMap<>();
+        rqbody.add("plainFile", filedata);
+        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(rqbody,headers);
+        SignResponse resp = restTemplate.postForObject(serviceProvider.getServiceURI("sign_service") + "/sign", request,SignResponse.class);
+
+        headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("ownerId", ownerId);
+
+        HttpEntity<Signature> request2 = new HttpEntity<Signature>(body.publicKey(resp.getPublicKey()).signature(resp.getSignature()).by(user.getUser()),headers);
+
+        restTemplate.put(serviceProvider.getServiceURI("storage_service") + "", request2);
 
         return ResponseEntity.ok().build();
     }

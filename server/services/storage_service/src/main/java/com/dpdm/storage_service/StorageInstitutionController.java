@@ -245,5 +245,25 @@ public class StorageInstitutionController extends InstitutionApiController{
         return ResponseEntity.ok().build();
     }
 
+    public ResponseEntity<Void> deleteRequest(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id,@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("reqid") String reqid) {
+        CollectionReference fileColRef = FirebaseConfig.getFirestore().collection("institutions/"+ id +"/requests");
+        DocumentReference fileRef = fileColRef.document(reqid);
+
+        String filename = null;
+        try {
+            filename = id +"/" +fileRef.get().get().getString("fileName");
+        } catch (InterruptedException | ExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        if(filename == null)
+            return ResponseEntity.notFound().build();
+
+        fileRef.delete();
+
+
+        return ResponseEntity.ok().build();
+    }
 
 }

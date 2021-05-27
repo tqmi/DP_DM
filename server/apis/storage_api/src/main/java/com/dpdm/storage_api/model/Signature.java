@@ -1,7 +1,6 @@
 package com.dpdm.storage_api.model;
 
 import java.util.Objects;
-import com.dpdm.storage_api.model.MyUser;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -18,7 +17,7 @@ import javax.xml.bind.annotation.*;
  * Signature
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-27T01:38:23.859Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-27T02:50:30.872Z[GMT]")
 @JacksonXmlRootElement(localName = "Signature")
 @XmlRootElement(name = "Signature")
 @XmlAccessorType(XmlAccessType.FIELD)@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -33,6 +32,10 @@ public class Signature  implements Serializable  {
   @JsonProperty("publicKey")
   @JacksonXmlProperty(localName = "publicKey")
   private String publicKey = null;
+
+  @JsonProperty("signature")
+  @JacksonXmlProperty(localName = "signature")
+  private String signature = null;
 
   public Signature by(MyUser by) {
     this.by = by;
@@ -73,6 +76,25 @@ public class Signature  implements Serializable  {
     this.publicKey = publicKey;
   }
 
+  public Signature signature(String signature) {
+    this.signature = signature;
+    return this;
+  }
+
+  /**
+   * Get signature
+   * @return signature
+   **/
+  @Schema(description = "")
+  
+    public String getSignature() {
+    return signature;
+  }
+
+  public void setSignature(String signature) {
+    this.signature = signature;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -84,12 +106,13 @@ public class Signature  implements Serializable  {
     }
     Signature signature = (Signature) o;
     return Objects.equals(this.by, signature.by) &&
-        Objects.equals(this.publicKey, signature.publicKey);
+        Objects.equals(this.publicKey, signature.publicKey) &&
+        Objects.equals(this.signature, signature.signature);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(by, publicKey);
+    return Objects.hash(by, publicKey, signature);
   }
 
   @Override
@@ -99,6 +122,7 @@ public class Signature  implements Serializable  {
     
     sb.append("    by: ").append(toIndentedString(by)).append("\n");
     sb.append("    publicKey: ").append(toIndentedString(publicKey)).append("\n");
+    sb.append("    signature: ").append(toIndentedString(signature)).append("\n");
     sb.append("}");
     return sb.toString();
   }
