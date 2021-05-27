@@ -7,6 +7,7 @@ package com.dpdm.gateway_api.api;
 
 import com.dpdm.gateway_api.model.FileResponse;
 import org.springframework.core.io.Resource;
+import com.dpdm.gateway_api.model.Signature;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -33,7 +34,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T21:50:35.843Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-27T01:37:43.340Z[GMT]")
 @Validated
 public interface FileApi {
 
@@ -71,8 +72,9 @@ public interface FileApi {
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK") })
     @RequestMapping(value = "/files/{fileid}/sign",
+        consumes = { "application/json" }, 
         method = RequestMethod.PUT)
-    ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid, @Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId);
+    ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId, @Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Signature body);
 
 
     @Operation(summary = "Uploads the file to the stoarge bucket", description = "operationId: uploadFile", security = {

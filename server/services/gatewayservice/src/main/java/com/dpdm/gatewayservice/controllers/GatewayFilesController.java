@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import com.dpdm.gateway_api.api.FileApiController;
 import com.dpdm.gateway_api.model.FileResponse;
+import com.dpdm.gateway_api.model.Signature;
 import com.dpdm.gatewayservice.models.InternalUser;
 import com.dpdm.gatewayservice.service_providers.ServiceProvider;
 import com.dpdm.gatewayservice.service_providers.UserProvider;
@@ -25,6 +26,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -113,9 +115,15 @@ public class GatewayFilesController extends FileApiController{
     }
 
 
-    public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid,@Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId,@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid,@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Signature body) {
+        InternalUser user = userProvider.getUser(request);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        
+
+        return ResponseEntity.ok().build();
     }
 
 

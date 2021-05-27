@@ -2,6 +2,7 @@ package com.dpdm.gateway_api.api;
 
 import com.dpdm.gateway_api.model.FileResponse;
 import org.springframework.core.io.Resource;
+import com.dpdm.gateway_api.model.Signature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,7 +34,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T21:50:35.843Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-27T01:37:43.340Z[GMT]")
 @RestController
 public class FileApiController implements FileApi {
 
@@ -70,7 +71,7 @@ public class FileApiController implements FileApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<FileResponse>>(objectMapper.readValue("[ {\n  \"owner\" : \"owner\",\n  \"fileName\" : \"fileName\",\n  \"signedBy\" : [ {\n    \"institutionlink\" : \"institutionlink\",\n    \"address\" : \"address\",\n    \"cnp\" : \"cnp\",\n    \"phone\" : \"phone\",\n    \"accesslevel\" : \"accesslevel\",\n    \"name\" : \"name\",\n    \"type\" : \"type\",\n    \"email\" : \"email\"\n  }, {\n    \"institutionlink\" : \"institutionlink\",\n    \"address\" : \"address\",\n    \"cnp\" : \"cnp\",\n    \"phone\" : \"phone\",\n    \"accesslevel\" : \"accesslevel\",\n    \"name\" : \"name\",\n    \"type\" : \"type\",\n    \"email\" : \"email\"\n  } ],\n  \"fileid\" : \"fileid\",\n  \"status\" : \"status\"\n}, {\n  \"owner\" : \"owner\",\n  \"fileName\" : \"fileName\",\n  \"signedBy\" : [ {\n    \"institutionlink\" : \"institutionlink\",\n    \"address\" : \"address\",\n    \"cnp\" : \"cnp\",\n    \"phone\" : \"phone\",\n    \"accesslevel\" : \"accesslevel\",\n    \"name\" : \"name\",\n    \"type\" : \"type\",\n    \"email\" : \"email\"\n  }, {\n    \"institutionlink\" : \"institutionlink\",\n    \"address\" : \"address\",\n    \"cnp\" : \"cnp\",\n    \"phone\" : \"phone\",\n    \"accesslevel\" : \"accesslevel\",\n    \"name\" : \"name\",\n    \"type\" : \"type\",\n    \"email\" : \"email\"\n  } ],\n  \"fileid\" : \"fileid\",\n  \"status\" : \"status\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<FileResponse>>(objectMapper.readValue("[ {\n  \"owner\" : \"owner\",\n  \"fileName\" : \"fileName\",\n  \"signatures\" : [ {\n    \"by\" : {\n      \"institutionlink\" : \"institutionlink\",\n      \"address\" : \"address\",\n      \"cnp\" : \"cnp\",\n      \"phone\" : \"phone\",\n      \"accesslevel\" : \"accesslevel\",\n      \"name\" : \"name\",\n      \"type\" : \"type\",\n      \"email\" : \"email\"\n    },\n    \"publicKey\" : \"publicKey\"\n  }, {\n    \"by\" : {\n      \"institutionlink\" : \"institutionlink\",\n      \"address\" : \"address\",\n      \"cnp\" : \"cnp\",\n      \"phone\" : \"phone\",\n      \"accesslevel\" : \"accesslevel\",\n      \"name\" : \"name\",\n      \"type\" : \"type\",\n      \"email\" : \"email\"\n    },\n    \"publicKey\" : \"publicKey\"\n  } ],\n  \"fileid\" : \"fileid\",\n  \"status\" : \"status\"\n}, {\n  \"owner\" : \"owner\",\n  \"fileName\" : \"fileName\",\n  \"signatures\" : [ {\n    \"by\" : {\n      \"institutionlink\" : \"institutionlink\",\n      \"address\" : \"address\",\n      \"cnp\" : \"cnp\",\n      \"phone\" : \"phone\",\n      \"accesslevel\" : \"accesslevel\",\n      \"name\" : \"name\",\n      \"type\" : \"type\",\n      \"email\" : \"email\"\n    },\n    \"publicKey\" : \"publicKey\"\n  }, {\n    \"by\" : {\n      \"institutionlink\" : \"institutionlink\",\n      \"address\" : \"address\",\n      \"cnp\" : \"cnp\",\n      \"phone\" : \"phone\",\n      \"accesslevel\" : \"accesslevel\",\n      \"name\" : \"name\",\n      \"type\" : \"type\",\n      \"email\" : \"email\"\n    },\n    \"publicKey\" : \"publicKey\"\n  } ],\n  \"fileid\" : \"fileid\",\n  \"status\" : \"status\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<FileResponse>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -80,7 +81,7 @@ public class FileApiController implements FileApi {
         return new ResponseEntity<List<FileResponse>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid,@Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId) {
+    public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId,@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid,@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Signature body) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }

@@ -1,7 +1,6 @@
 package com.dpdm.gatewayservice.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +9,7 @@ import javax.validation.Valid;
 import com.dpdm.gateway_api.api.InstitutionApiController;
 import com.dpdm.gateway_api.model.FileResponse;
 import com.dpdm.gateway_api.model.Institution;
+import com.dpdm.gateway_api.model.SignRequest;
 import com.dpdm.gatewayservice.models.InternalUser;
 import com.dpdm.gatewayservice.service_providers.ServiceProvider;
 import com.dpdm.gatewayservice.service_providers.UserProvider;
@@ -146,6 +146,26 @@ public class GatewayInstitutionController extends InstitutionApiController{
         String resp = restTemplate.getForObject(serviceProvider.getServiceURI("storage_service") + "/institution/{id}/templates/{fileid}/dlink", String.class,id,fileid);
 
         return new ResponseEntity<String>(resp,HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> sendRequest(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id,@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody SignRequest body) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+        HttpEntity<SignRequest> request = new HttpEntity<SignRequest>(body,headers);
+        
+
+        restTemplate.postForObject(serviceProvider.getServiceURI("storage_service") + "/institutions/{id}/requests", request,Void.class,id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<List<SignRequest>> getRequests(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id) {
+        List<SignRequest> resp = null;
+
+        resp = (List<SignRequest>)restTemplate.getForObject(serviceProvider.getServiceURI("storage_service") + "/institutions/{id}/requests", List.class,id);
+
+        return ResponseEntity.ok().body(resp);
     }
 
 }

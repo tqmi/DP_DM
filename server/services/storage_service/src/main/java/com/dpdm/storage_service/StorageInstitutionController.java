@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import com.dpdm.storage_api.api.InstitutionApiController;
 import com.dpdm.storage_api.model.FileResponse;
 import com.dpdm.storage_api.model.Institution;
+import com.dpdm.storage_api.model.SignRequest;
 import com.dpdm.storage_service.firebase.FirebaseConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.firestore.CollectionReference;
@@ -160,8 +161,9 @@ public class StorageInstitutionController extends InstitutionApiController{
         try {
             files = fileColRef.get().get().getDocuments().stream().map((qds) -> {return qds.toObject(FileResponse.class);}).collect(Collectors.toList());
         } catch (InterruptedException | ExecutionException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
 		return new ResponseEntity<List<FileResponse>>(files,HttpStatus.OK);
@@ -177,8 +179,8 @@ public class StorageInstitutionController extends InstitutionApiController{
         try {
             filename = id +"/" +fileRef.get().get().getString("fileName");
         } catch (InterruptedException | ExecutionException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
         if(filename == null)
@@ -200,10 +202,48 @@ public class StorageInstitutionController extends InstitutionApiController{
             fileDoc.create(new FileResponse().fileName(filename.getOriginalFilename()).fileid(fileDoc.getId()).owner(id).status("template"));
             
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
         return ResponseEntity.ok().build();
     }
+
+    public ResponseEntity<List<SignRequest>> getRequests(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id) {
+        CollectionReference reqColRef = FirebaseConfig.getFirestore().collection("institutions/"+ id +"/requests");
+
+        List<SignRequest> files = null;
+
+        try {
+            files = reqColRef.get().get().getDocuments().stream().map((qds) -> {return qds.toObject(SignRequest.class);}).collect(Collectors.toList());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+		return new ResponseEntity<List<SignRequest>>(files,HttpStatus.OK);
+    }
+
+
+    public ResponseEntity<Void> sendRequest(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id,@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody SignRequest body) {
+        CollectionReference reqColRef = FirebaseConfig.getFirestore().collection("institutions/"+ id +"/requests");
+
+        DocumentReference docref =  reqColRef.document();
+
+        try {
+            if(docref.create(body.id(docref.getId())).get() == null){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+
+        return ResponseEntity.ok().build();
+    }
+
+
 }

@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.ArrayList;
-import java.util.List;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -17,20 +15,24 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import javax.xml.bind.annotation.*;
 
 /**
- * FileResponse
+ * SignRequest
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-27T01:38:23.859Z[GMT]")
-@JacksonXmlRootElement(localName = "FileResponse")
-@XmlRootElement(name = "FileResponse")
+@JacksonXmlRootElement(localName = "SignRequest")
+@XmlRootElement(name = "SignRequest")
 @XmlAccessorType(XmlAccessType.FIELD)@JsonInclude(JsonInclude.Include.NON_NULL)
 
-public class FileResponse  implements Serializable  {
+public class SignRequest  implements Serializable  {
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("fileName")
-  @JacksonXmlProperty(localName = "fileName")
-  private String fileName = null;
+  @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
+  private String id = null;
+
+  @JsonProperty("by")
+  @JacksonXmlProperty(localName = "by")
+  private MyUser by = null;
 
   @JsonProperty("owner")
   @JacksonXmlProperty(localName = "owner")
@@ -40,35 +42,46 @@ public class FileResponse  implements Serializable  {
   @JacksonXmlProperty(localName = "fileid")
   private String fileid = null;
 
-  @JsonProperty("status")
-  @JacksonXmlProperty(localName = "status")
-  private String status = null;
-
-  @JsonProperty("signedBy")
-  @JacksonXmlProperty(localName = "signedBy")
-  @Valid
-  private List<MyUser> signedBy = null;
-
-  public FileResponse fileName(String fileName) {
-    this.fileName = fileName;
+  public SignRequest id(String id) {
+    this.id = id;
     return this;
   }
 
   /**
-   * Get fileName
-   * @return fileName
+   * Get id
+   * @return id
    **/
   @Schema(description = "")
   
-    public String getFileName() {
-    return fileName;
+    public String getId() {
+    return id;
   }
 
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
+  public void setId(String id) {
+    this.id = id;
   }
 
-  public FileResponse owner(String owner) {
+  public SignRequest by(MyUser by) {
+    this.by = by;
+    return this;
+  }
+
+  /**
+   * Get by
+   * @return by
+   **/
+  @Schema(description = "")
+  
+    @Valid
+    public MyUser getBy() {
+    return by;
+  }
+
+  public void setBy(MyUser by) {
+    this.by = by;
+  }
+
+  public SignRequest owner(String owner) {
     this.owner = owner;
     return this;
   }
@@ -87,7 +100,7 @@ public class FileResponse  implements Serializable  {
     this.owner = owner;
   }
 
-  public FileResponse fileid(String fileid) {
+  public SignRequest fileid(String fileid) {
     this.fileid = fileid;
     return this;
   }
@@ -106,52 +119,6 @@ public class FileResponse  implements Serializable  {
     this.fileid = fileid;
   }
 
-  public FileResponse status(String status) {
-    this.status = status;
-    return this;
-  }
-
-  /**
-   * Get status
-   * @return status
-   **/
-  @Schema(description = "")
-  
-    public String getStatus() {
-    return status;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-  public FileResponse signedBy(List<MyUser> signedBy) {
-    this.signedBy = signedBy;
-    return this;
-  }
-
-  public FileResponse addSignedByItem(MyUser signedByItem) {
-    if (this.signedBy == null) {
-      this.signedBy = new ArrayList<MyUser>();
-    }
-    this.signedBy.add(signedByItem);
-    return this;
-  }
-
-  /**
-   * Get signedBy
-   * @return signedBy
-   **/
-  @Schema(description = "")
-      @Valid
-    public List<MyUser> getSignedBy() {
-    return signedBy;
-  }
-
-  public void setSignedBy(List<MyUser> signedBy) {
-    this.signedBy = signedBy;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -161,29 +128,27 @@ public class FileResponse  implements Serializable  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    FileResponse fileResponse = (FileResponse) o;
-    return Objects.equals(this.fileName, fileResponse.fileName) &&
-        Objects.equals(this.owner, fileResponse.owner) &&
-        Objects.equals(this.fileid, fileResponse.fileid) &&
-        Objects.equals(this.status, fileResponse.status) &&
-        Objects.equals(this.signedBy, fileResponse.signedBy);
+    SignRequest signRequest = (SignRequest) o;
+    return Objects.equals(this.id, signRequest.id) &&
+        Objects.equals(this.by, signRequest.by) &&
+        Objects.equals(this.owner, signRequest.owner) &&
+        Objects.equals(this.fileid, signRequest.fileid);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fileName, owner, fileid, status, signedBy);
+    return Objects.hash(id, by, owner, fileid);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class FileResponse {\n");
+    sb.append("class SignRequest {\n");
     
-    sb.append("    fileName: ").append(toIndentedString(fileName)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    by: ").append(toIndentedString(by)).append("\n");
     sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
     sb.append("    fileid: ").append(toIndentedString(fileid)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    signedBy: ").append(toIndentedString(signedBy)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -2,6 +2,7 @@ package com.dpdm.storage_api.api;
 
 import com.dpdm.storage_api.model.FileResponse;
 import org.springframework.core.io.Resource;
+import com.dpdm.storage_api.model.Signature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,7 +34,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T21:51:02.069Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-27T01:38:23.859Z[GMT]")
 @RestController
 public class FileApiController implements FileApi {
 
@@ -80,7 +81,7 @@ public class FileApiController implements FileApi {
         return new ResponseEntity<List<FileResponse>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id,@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("fileid") String fileid) {
+    public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId,@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid,@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Signature body) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }

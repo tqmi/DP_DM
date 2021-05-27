@@ -8,6 +8,7 @@ package com.dpdm.storage_api.api;
 import com.dpdm.storage_api.model.FileResponse;
 import com.dpdm.storage_api.model.Institution;
 import org.springframework.core.io.Resource;
+import com.dpdm.storage_api.model.SignRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -34,7 +35,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T21:51:02.069Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-27T01:38:23.859Z[GMT]")
 @Validated
 public interface InstitutionApi {
 
@@ -45,6 +46,14 @@ public interface InstitutionApi {
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
     ResponseEntity<Void> createInstitution(@Parameter(in = ParameterIn.DEFAULT, description = "the institution details", required=true, schema=@Schema()) @Valid @RequestBody Institution body);
+
+
+    @Operation(summary = "delete a request", description = "operationId: deleteRequest", tags={ "Institution" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "OK") })
+    @RequestMapping(value = "/institution/{id}/requests/{reqid}",
+        method = RequestMethod.DELETE)
+    ResponseEntity<Void> deleteRequest(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id, @Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("reqid") String reqid);
 
 
     @Operation(summary = "Get file link", description = "operationId: getDownloadLink", tags={ "Institution" })
@@ -91,6 +100,15 @@ public interface InstitutionApi {
     ResponseEntity<List<Institution>> getInstitutions();
 
 
+    @Operation(summary = "Get the companies requests", description = "operationId: getRequests", tags={ "Institution" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "OK", content = @Content(array = @ArraySchema(schema = @Schema(implementation = SignRequest.class)))) })
+    @RequestMapping(value = "/institution/{id}/requests",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<SignRequest>> getRequests(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id);
+
+
     @Operation(summary = "Get file link", description = "operationId: getDownloadLink", tags={ "Institution" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = String.class))) })
@@ -98,6 +116,15 @@ public interface InstitutionApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<String> getTemplateDownloadLink(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id, @Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("fileid") String fileid);
+
+
+    @Operation(summary = "send a request", description = "operationId: sendRequest", tags={ "Institution" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "OK") })
+    @RequestMapping(value = "/institution/{id}/requests",
+        consumes = { "application/json" }, 
+        method = RequestMethod.POST)
+    ResponseEntity<Void> sendRequest(@Parameter(in = ParameterIn.PATH, description = "id string that was sent with the file", required=true, schema=@Schema()) @PathVariable("id") String id, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody SignRequest body);
 
 
     @Operation(summary = "upload template", description = "uploadInstitutionTemplate", tags={ "Institution" })

@@ -16,6 +16,7 @@ import javax.validation.Valid;
 
 import com.dpdm.storage_api.api.FileApiController;
 import com.dpdm.storage_api.model.FileResponse;
+import com.dpdm.storage_api.model.Signature;
 import com.dpdm.storage_service.firebase.FirebaseConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.firestore.CollectionReference;
@@ -29,6 +30,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,11 +84,6 @@ public class StorageFileController extends FileApiController{
 		return new ResponseEntity<List<FileResponse>>(files,HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id,@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("fileid") String fileid) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
     public ResponseEntity<Void> uploadFile(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id,@Parameter(description = "file detail") @Valid @RequestPart("file") MultipartFile filename) {
         BlobId blobId = BlobId.of(FirebaseConfig.getBucketName(),id + "/" +  filename.getOriginalFilename());
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setMetadata(new HashMap<String,String>(){{put("owner",id);}}).build();
@@ -128,6 +126,29 @@ public class StorageFileController extends FileApiController{
         return ResponseEntity.ok().build();
     }
 
+    
+    
+    public ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId,@Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid,@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Signature body) {
+        CollectionReference fileColRef = FirebaseConfig.getFirestore().collection("users/"+ ownerId +"/files");
+        DocumentReference fileRef = fileColRef.document(fileid);
+
+        CollectionReference sigColRef = fileRef.collection("signatures");
+        DocumentReference sigRef = sigColRef.document();
+        
+        try {
+            if(sigRef.create(body).get() == null){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+
+        return ResponseEntity.ok().build();
+    }
+
+    
 
     
 }

@@ -1,7 +1,7 @@
 package com.dpdm.gateway_api.model;
 
 import java.util.Objects;
-import com.dpdm.gateway_api.model.MyUser;
+import com.dpdm.gateway_api.model.Signature;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.*;
  * FileResponse
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T21:50:35.843Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-27T01:37:43.340Z[GMT]")
 @JacksonXmlRootElement(localName = "FileResponse")
 @XmlRootElement(name = "FileResponse")
 @XmlAccessorType(XmlAccessType.FIELD)@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -44,10 +44,10 @@ public class FileResponse  implements Serializable  {
   @JacksonXmlProperty(localName = "status")
   private String status = null;
 
-  @JsonProperty("signedBy")
-  @JacksonXmlProperty(localName = "signedBy")
+  @JsonProperty("signatures")
+  @JacksonXmlProperty(localName = "signatures")
   @Valid
-  private List<MyUser> signedBy = null;
+  private List<Signature> signatures = null;
 
   public FileResponse fileName(String fileName) {
     this.fileName = fileName;
@@ -125,31 +125,31 @@ public class FileResponse  implements Serializable  {
     this.status = status;
   }
 
-  public FileResponse signedBy(List<MyUser> signedBy) {
-    this.signedBy = signedBy;
+  public FileResponse signatures(List<Signature> signatures) {
+    this.signatures = signatures;
     return this;
   }
 
-  public FileResponse addSignedByItem(MyUser signedByItem) {
-    if (this.signedBy == null) {
-      this.signedBy = new ArrayList<MyUser>();
+  public FileResponse addSignaturesItem(Signature signaturesItem) {
+    if (this.signatures == null) {
+      this.signatures = new ArrayList<Signature>();
     }
-    this.signedBy.add(signedByItem);
+    this.signatures.add(signaturesItem);
     return this;
   }
 
   /**
-   * Get signedBy
-   * @return signedBy
+   * Get signatures
+   * @return signatures
    **/
   @Schema(description = "")
       @Valid
-    public List<MyUser> getSignedBy() {
-    return signedBy;
+    public List<Signature> getSignatures() {
+    return signatures;
   }
 
-  public void setSignedBy(List<MyUser> signedBy) {
-    this.signedBy = signedBy;
+  public void setSignatures(List<Signature> signatures) {
+    this.signatures = signatures;
   }
 
 
@@ -166,12 +166,12 @@ public class FileResponse  implements Serializable  {
         Objects.equals(this.owner, fileResponse.owner) &&
         Objects.equals(this.fileid, fileResponse.fileid) &&
         Objects.equals(this.status, fileResponse.status) &&
-        Objects.equals(this.signedBy, fileResponse.signedBy);
+        Objects.equals(this.signatures, fileResponse.signatures);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fileName, owner, fileid, status, signedBy);
+    return Objects.hash(fileName, owner, fileid, status, signatures);
   }
 
   @Override
@@ -183,7 +183,7 @@ public class FileResponse  implements Serializable  {
     sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
     sb.append("    fileid: ").append(toIndentedString(fileid)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    signedBy: ").append(toIndentedString(signedBy)).append("\n");
+    sb.append("    signatures: ").append(toIndentedString(signatures)).append("\n");
     sb.append("}");
     return sb.toString();
   }

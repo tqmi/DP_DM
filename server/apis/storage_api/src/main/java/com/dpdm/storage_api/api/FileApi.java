@@ -7,6 +7,7 @@ package com.dpdm.storage_api.api;
 
 import com.dpdm.storage_api.model.FileResponse;
 import org.springframework.core.io.Resource;
+import com.dpdm.storage_api.model.Signature;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -33,7 +34,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-26T21:51:02.069Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-27T01:38:23.859Z[GMT]")
 @Validated
 public interface FileApi {
 
@@ -63,12 +64,13 @@ public interface FileApi {
     ResponseEntity<List<FileResponse>> getFiles(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id);
 
 
-    @Operation(summary = "sign file", description = "", tags={ "File" })
+    @Operation(summary = "sign file", description = "operationId: signFile", tags={ "File" })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "ok") })
-    @RequestMapping(value = "/{id}/file/{fileid}/sign",
+        @ApiResponse(responseCode = "200", description = "OK") })
+    @RequestMapping(value = "/files/{fileid}/sign",
+        consumes = { "application/json" }, 
         method = RequestMethod.PUT)
-    ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id, @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("fileid") String fileid);
+    ResponseEntity<Void> signFile(@Parameter(in = ParameterIn.HEADER, description = "the files owner id" ,required=true,schema=@Schema()) @RequestHeader(value="ownerId", required=true) String ownerId, @Parameter(in = ParameterIn.PATH, description = "the files id", required=true, schema=@Schema()) @PathVariable("fileid") String fileid, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Signature body);
 
 
     @Operation(summary = "post file", description = "", tags={ "File" })
