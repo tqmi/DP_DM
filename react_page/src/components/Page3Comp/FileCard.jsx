@@ -74,7 +74,6 @@ const FileCard = props => {
             { owner }  
           </span>
           <span className="signatureButton">
-              <button class="sigButton" onClick={signatureButtonClick} >  Signature </button>
               { sigList > 0 &&
                   <div class="dropdownSignature">
                     <ul>
