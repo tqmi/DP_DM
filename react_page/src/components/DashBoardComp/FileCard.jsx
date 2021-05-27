@@ -88,7 +88,7 @@ const FileCard = props => {
  {
   sendReqWithToken(user,
     signFile,
-    {"fileid" : fileid, "ownerId": user.uid},
+    {"fileid" : fileid, "ownerId": owner},
     {
       "by": props.account,
       "publicKey": "",
